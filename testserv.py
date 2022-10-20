@@ -32,7 +32,7 @@ class Request():
 
 def HTTPS_server(address:str, port:int):
     context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
-    context.load_cert_chain('/Users/maantje/programmeren/Uni/Python/EoCS/cert/server.crt', '/Users/maantje/programmeren/Uni/Python/EoCS/cert/server.key')
+    context.load_cert_chain('./cert/server.crt', './cert/server.key')
 
     bindsocket = socket.socket()
     bindsocket.bind((address, port))
