@@ -1,5 +1,7 @@
 import socket, ssl
 
+#Hallo ik ben Manuel!
+
 class Response():
     def __init__(self, status:int, data:str):
         self.status = status
