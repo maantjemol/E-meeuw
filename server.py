@@ -1,18 +1,6 @@
-import socket
-import ssl
+import socket, ssl
 
-# Define socket host and port
-SERVER_HOST = '0.0.0.0'
-SERVER_PORT = 8123
-test = f"dsfg{SERVER_HOST}"
-# Create socket
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_socket = ssl.wrap_socket (server_socket, certfile='./server.pem', server_side=True)
-server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-server_socket.bind((SERVER_HOST, SERVER_PORT))
-server_socket.listen(1)
-print('Listening on port %s ...' % SERVER_PORT)
-
+#Hallo ik ben Manuel!
 
 class Response():
     def __init__(self, status:int, data:str):
@@ -20,25 +8,50 @@ class Response():
         self.data = data
 
     def build(self):
-        response = f"HTTP/1.0 {self.status} OK\n\r{self.data}"
+        response = f"HTTP/1.1 {self.status} OK\nServer: Your_Mom\nContent-type: text/html; charset=UTF-8\n\r\n\r{self.data}\n\r\n\r"
         return response
 
 
-def unpack_request(request):
-    print(request)
+class Request():
+    def __init__(self, request:bytes):
+        self.headers = {}
+        self.request_string = request.decode()
+        self.method = self.request_string.split(" ")[0]
+        self.url = self.request_string.split(" ")[1]
 
-while True:    
-    # Wait for client connections
-    client_connection, client_address = server_socket.accept()
+        print("Request: \n", self.request_string)
 
-    # Get the client request
-    request = client_connection.recv(1024).decode()
-    unpack_request(request)
-    response = Response(200, "<h1>Hi, welcome to my site</h1>").build()
+        # split header string and add it to dict
+        lines = self.request_string.split('\n',1)[1]
+        for line in lines.split("\n")[0:-2]:
+            # print(line)
+            words = line.split(":", 1)
+            self.headers[words[0]] = words[1].replace("\n", "").replace("\r", "")
 
-    # Send HTTP response
-    client_connection.sendall(response.encode())
-    client_connection.close()
 
-# Close socket
-server_socket.close()
+
+def HTTPS_server(address:str, port:int):
+    context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+    context.load_cert_chain('./cert/server.crt', './cert/server.key')
+
+    bindsocket = socket.socket()
+    bindsocket.bind((address, port))
+    bindsocket.listen(1)
+
+    while True:
+        newsocket, fromaddr = bindsocket.accept()
+        print("Accepting request!")
+        connstream = context.wrap_socket(newsocket, server_side=True)
+        request = connstream.recv(1024)
+
+        request = Request(request)
+
+
+        response = Response(200, "<h1>Hi, welcome to my site</h1>").build()
+        print("Response: \n", response)
+        connstream.sendall(response.encode())
+        connstream.close()
+
+
+if __name__ == "__main__":
+    HTTPS_server("localhost", 1112)
