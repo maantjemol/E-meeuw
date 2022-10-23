@@ -114,6 +114,7 @@ class HTTP_Server():
 
         # Maakt een verbinding voor HTTPS Socket, prikt zegmaar gat in computer om netwerk shit eruit te laten lopen
         bindsocket = socket.socket()
+        bindsocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         bindsocket.bind((self.address, self.port))
         # gaat luisteren of er ook shit naar binnen komt
         bindsocket.listen(1)
