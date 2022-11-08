@@ -74,6 +74,7 @@ def InitializeRoutes():
     # Loopt door alle files heen en maakt een route
     for filepath in files:
         route = "/" + filepath.split("/", 2)[2]
+        print(route)
         NewRoute(route, filepath)
     
     # Voegt een route toe aan de lijst routes 
@@ -127,7 +128,6 @@ class HTTP_Server():
 
             # Zet gare string om naar cool object met url en shit om beter te kunnen gebruiken
             request = Request(request)
-
             # print dat er een request wordt gedaan
             print(f"Accepting request from {fromaddr[0]}: {request.url}")
 
@@ -150,3 +150,4 @@ if __name__ == "__main__":
     # Hier starten we de server op https://localhost:1111
     server = HTTP_Server("localhost", 1111, routes)
     server.start()
+    
