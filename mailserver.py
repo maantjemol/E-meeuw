@@ -10,7 +10,7 @@ class Response():
         self.status = status
         self.data = data
 
-        
+
     def build(self):
         response = f"HTTP/1.1 {self.status} OK\nServer: Your_Mom\nContent-type: text/html; charset=UTF-8\n\r\n\r{self.data}\n\r\n\r"
         return response
@@ -76,8 +76,6 @@ if __name__ == "__main__":
     # We maken hier de routes aan om te gebruiken voor de webserver.
     # Denk hierbij zegmaar aan https://localhost:1111/test.html
     # Hier is /test.html de route
-    InitializeRoutes()
-
     # Hier starten we de server op https://localhost:1111
     server = HTTP_Server("localhost", 1112, routes)
     server.start()
