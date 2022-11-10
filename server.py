@@ -1,5 +1,6 @@
 # importeert een hoop shit
 import socket, ssl, glob
+import os
 
 # Maakt alvast routes list aan voor later (scroll naar beneden voor spoilers)
 routes = []
@@ -73,7 +74,9 @@ def InitializeRoutes():
 
     # Loopt door alle files heen en maakt een route
     for filepath in files:
-        route = "/" + filepath.split("/", 2)[2]
+        correctFilePath = filepath.replace("\\", "/")
+        print(correctFilePath)
+        route = "/" + correctFilePath.split("/", 2)[2]
         print(route)
         NewRoute(route, filepath)
     
