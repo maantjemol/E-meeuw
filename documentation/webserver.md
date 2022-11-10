@@ -22,7 +22,7 @@ For example, the following `request_string`:
 ```http
 GET /search.html HTTP/1.1
 Host: www.google.com
-User-Agent: Mozilla/5.
+User-Agent: Mozilla/5.0
 Accept: /
 ```
 Will result in the `method` GET, the `url` /search.html and the `headers`: 
