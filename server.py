@@ -74,9 +74,7 @@ def InitializeRoutes():
 
     # Loopt door alle files heen en maakt een route
     for filepath in files:
-        correctFilePath = filepath.replace("\\", "/")
-        print(correctFilePath)
-        route = "/" + correctFilePath.split("/", 2)[2]
+        route = "/" + filepath.split("/", 2)[2]
         print(route)
         NewRoute(route, filepath)
     

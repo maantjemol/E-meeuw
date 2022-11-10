@@ -1,41 +1,10 @@
 # importeert een hoop shit
 import socket, ssl, glob
+import re
 
-# Maakt alvast routes list aan voor later (scroll naar beneden voor spoilers)
-routes = []
-
-class Response():
-    # Maakt het makkelijk om een responce te bouwen
-    def __init__(self, status:int, data:str):
-        self.status = status
-        self.data = data
-
-
-    def build(self):
-        response = f"HTTP/1.1 {self.status} OK\nServer: Your_Mom\nContent-type: text/html; charset=UTF-8\n\r\n\r{self.data}\n\r\n\r"
-        return response
-
-
-class Request():
-    # Maakt een request bruikbaar, inclusief headers
-    def __init__(self, request:bytes):
-
-        self.headers = {}
-        self.request_string = request.decode()
-        self.method = self.request_string.split(" ")[0]
-        self.url = self.request_string.split(" ")[1]
-
-        # split header string en stopt het in een dict voor gebruik
-        lines = self.request_string.split('\n',1)[1]
-        for line in lines.split("\n")[0:-2]:
-            words = line.split(":", 1)
-            self.headers[words[0]] = words[1].replace("\n", "").replace("\r", "")
-
-
-class HTTP_Server():
-    def __init__(self, address:str, port:int, routes:list):
+class Email_Server():
+    def __init__(self, address:str, port:int):
         self.port = port
-        self.routes = routes
         self.address = address
     
     def start(self):
@@ -56,19 +25,30 @@ class HTTP_Server():
             # Accepteert TCP connectie en maakt hem veilig met magie fzo
             newsocket, fromaddr = bindsocket.accept()
             connstream = context.wrap_socket(newsocket, server_side=True) # Magie
-            request = connstream.recv(1024)
+            
+            # Recieve connection and HELO message
+            request = connstream.recv(1024).decode()
+            if request[:4] == "HELO":
+                print(request)
+                connstream.sendall("250 OK".encode())
+            else:
+                connstream.sendall("450".encode())
+                connstream.close()
+                break
 
-            # Zet gare string om naar cool object met url en shit om beter te kunnen gebruiken
-            request = Request(request)
-            # print dat er een request wordt gedaan
-            print(f"Accepting request from {fromaddr[0]}: {request.url}")
+            request = connstream.recv(1024).decode()
+            if "MAIL FROM" in request:
+                regex = r"(?<=<).*?(?=>)" # Everything between < >
+                email = re.findall(regex, request)
+                print(email)
+                connstream.sendall("250 OK".encode())
+            else:
+                connstream.sendall("450".encode())
+                connstream.close()
+                break
+                
 
-            # Zoekt de route op die hoort bij /info.html fzo 
-
-            # Maakt er een mooi HTTP objectje van en flikkert die terug naar je browser
-            response =  "test"
-            connstream.sendall(response.encode())
-            connstream.close()
+                
 
 
 
@@ -77,6 +57,6 @@ if __name__ == "__main__":
     # Denk hierbij zegmaar aan https://localhost:1111/test.html
     # Hier is /test.html de route
     # Hier starten we de server op https://localhost:1111
-    server = HTTP_Server("localhost", 1112, routes)
+    server = Email_Server("localhost", 1112)
     server.start()
     
