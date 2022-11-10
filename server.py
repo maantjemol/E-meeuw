@@ -45,10 +45,10 @@ class Route():
         self.webpath = webpath
         self.localpath = localpath
     
-    # Bouwt een resonse voor de route, als in een HTTP message
+    # Bouwt een response voor de route, als in een HTTP message
     def build(self):
         try:
-            # Probeerd het HTML bestand te zoeken
+            # Probeert het HTML bestand te zoeken
             file = open(self.localpath).read()
             response = Response(200, file).build()
             return response
