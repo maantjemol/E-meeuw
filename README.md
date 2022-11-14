@@ -1,43 +1,31 @@
-
 # EoCS project
 
-A web email made from scratch in python.
-
+A web email service in python without the use of external libraries.
 
 ## Installation
 
-Install my-project with npm
+Clone the project to your system with
 
 ```bash
-  npm install my-project
-  cd my-project
+git clone https://github.com/maantjemol/EoCS-project.git
 ```
-    
+
+Install the included ssl certificates `rootCA.pem` in the `cert` folder to your system. There are guides available for [Windows](https://windowsreport.com/install-windows-10-root-certificates/) and [Mac (only follow step 2)](https://www.freecodecamp.org/news/how-to-get-https-working-on-your-local-development-environment-in-5-minutes-7af615770eec/#step-2-trust-the-root-ssl-certificate).
+
 ## Usage/Examples
 
-```javascript
-import Component from 'my-project'
+Start the server on [https://localhost:1111](https://localhost:1111) with:
 
-function App() {
-  return <Component />
-}
+```bash
+python3 server.py
 ```
 
+Pages can be added in the `pages` folder as .html files. The server also supports Javascript and CSS.
 
 ## Documentation
 
-[Documentation](https://linktodocumentation)
-
+- [Webserver](https://github.com/maantjemol/EoCS-project/blob/master/documentation/webserver.md)
 
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
-
-
-## Used By
-
-This project is used by the following companies:
-
-- Company 1
-- Company 2
-
