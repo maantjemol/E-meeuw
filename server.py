@@ -7,9 +7,10 @@ routes = []
 
 class Response():
     # Maakt het makkelijk om een responce te bouwen
-    def __init__(self, status:int, data:str):
+    def __init__(self, status:int, data:str, contentType:str = "text/html"):
         self.status = status
         self.data = data
+        self.contentType = contentType
 
     # Bouwt een HTTP message om te versturen, In dit geval in de vorm:
     # 
@@ -19,7 +20,7 @@ class Response():
     # "Eventuele data"
     # 
     def build(self):
-        response = f"HTTP/1.1 {self.status} OK\nServer: Your_Mom\nContent-type: text/html; charset=UTF-8\n\r\n\r{self.data}\n\r\n\r"
+        response = f"HTTP/1.1 {self.status} OK\nServer: Your_Mom\nContent-type: {self.contentType}; charset=UTF-8\n\r\n\r{self.data}\n\r\n\r"
         return response
 
 
@@ -41,30 +42,32 @@ class Request():
 
 class Route():
     # Maakt een route aan
-    def __init__(self, webpath:str, localpath:str):
+    def __init__(self, webpath:str, localpath:str, contentType:str = "text/html"):
         self.webpath = webpath
         self.localpath = localpath
+        self.contentType = contentType
     
     # Bouwt een response voor de route, als in een HTTP message
     def build(self):
         try:
             # Probeert het HTML bestand te zoeken
             file = open(self.localpath).read()
-            response = Response(200, file).build()
+            response = Response(200, file, self.contentType).build()
             return response
-        except:
+        except Exception as e:
+            print(f"Error: {e}")
             # Als het HTML bestand niet gevonden kan worden stuurt ie een 404 not found
             response = Response(404, "Not found").build()
             return response
 
 
-def NewRoute(webpath, localpath):
+def NewRoute(webpath, localpath, contentType = "text/html"):
     # Voegt gewoon een route toe aan een lijst maar dit ziet er clean uit.
     # Route(webpath, localpath) maakt een route, met een webpath in de vorm
     # van /test.html(voorbeeld) en een localpath naar het bestand ./pages/test.html(voorbeeld)
 
     routes.append(
-        Route(webpath, localpath)
+        Route(webpath, localpath, contentType)
     )
 
 
@@ -76,7 +79,26 @@ def InitializeRoutes():
     for filepath in files:
         route = "/" + filepath.split("/", 2)[2]
         print(route)
-        NewRoute(route, filepath)
+
+        if filepath.split(".")[-1] == "css": # CSS support
+            NewRoute(route, filepath, "text/css")
+
+        if filepath.split(".")[-1] == "gif": # GIF support
+            NewRoute(route, filepath, "image/gif")
+        
+        if filepath.split(".")[-1] == "ico": # ICON support
+            NewRoute(route, filepath, "image/x-icon")
+
+        if filepath.split(".")[-1] == "png": # PNG support
+            NewRoute(route, filepath, "image/png")
+        
+        if filepath.split(".")[-1] == "js": # JS support
+            print("js")
+            NewRoute(route, filepath, "text/javascript")
+
+        else:
+            NewRoute(route, filepath)
+
     
     # Voegt een route toe aan de lijst routes 
     NewRoute("/", "./pages/index.html")
