@@ -60,5 +60,10 @@ Furtermore, the class contains the method `start()`
 ### method Start()
 The method will print a string stating the address and port where the server will be starting. 
 Next, the SSL connection is initiated. We create a `SSLContext` object. 
+We create an object `socket` using the `socket` module. We set parameters (?) for the socket and assign an IP address and portnumber to the socket. `bindsocket.listen(1)` means the server is now listening for connection requests to its assigned port. `1` is the backlog argument of the method, this argument specifies the maximum number of queued connections. [Why we chose 1]. 
+We stay in a while loop as long as ... (always?)
+The while loop handles incoming TCP requests (?).
+When a connection comes in, we return a new socket representing the connection and the address of the client. 
+
 
 
