@@ -39,10 +39,26 @@ A class to compose the route.
 We pass the arguments `webpath` and `localpath`.
 The class contains the method `build()`.
 `build()` will try to find the HTML file, specified in the `localpath` variable, in the folder `pages`. When it does, `build()` will build a HTTP response using the `Response.build()` method with status 200 and the file. In case the HTML file is not found, the method will return a response with status 404 and the message 'Not found'.
+Furthermore, the class contains the following methods:
 
-## method NewRoute()
+### method NewRoute()
 This method will append a new route to a list of routes. 
 The route is created inside the method, using the parameters `webpath` and `localpath`, and then added to the list `routes`.
 
-## method InitializeRoutes()
-This method will go through all the files in the folder `pages` and map routes for all of them 
+### method InitializeRoutes()
+This method will go through all the files in the folder `pages` and initialize the method `NewRoute()` to map the routes to all pages. All routes are then added to the list `routes`. 
+
+### method FindFiles()
+This method will return a list of all the files in a folder. 
+In order to do this, we initialize the `glob()` method to retrieve the pathnames and add them to the list `files`.
+
+
+## class HTTP_Server
+This class .... We pass the arguments `self`, `address`, `port`, and `routes`.
+Furtermore, the class contains the method `start()`
+
+### method Start()
+The method will print a string stating the address and port where the server will be starting. 
+Next, the SSL connection is initiated. We create a `SSLContext` object. 
+
+
