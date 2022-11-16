@@ -1,6 +1,6 @@
 # importeert een hoop shit
 import socket, ssl, glob
-import os
+#import os 
 
 # Maakt alvast routes list aan voor later (scroll naar beneden voor spoilers)
 routes = []
