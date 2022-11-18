@@ -101,10 +101,13 @@ class HTTP_Server():
             connstream.sendall(response.encode())
             connstream.close()
 
-
+docker = False
 
 if __name__ == "__main__":
     InitializeRoutes()
     ApiRoutes()
-    server = HTTP_Server("localhost", 1111, routes)
+    if docker:
+        server = HTTP_Server("0.0.0.0", 443, routes)
+    else: 
+        server = HTTP_Server("localhost", 1111, routes)
     server.start()

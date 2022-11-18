@@ -167,14 +167,4 @@ def FindRoute(routes, url):
             return route
     return Route("/", "./pages/404.html")
 
-
-if __name__ == "__main__":
-    # We maken hier de routes aan om te gebruiken voor de webserver.
-    # Denk hierbij zegmaar aan https://localhost:1111/test.html
-    # Hier is /test.html de route
-    InitializeRoutes()
-
-    # Hier starten we de server op https://localhost:1111
-    server = HTTP_Server("localhost", 1111, routes)
-    server.start()
     
