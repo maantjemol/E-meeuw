@@ -69,7 +69,7 @@ class HTTP_Server():
 
         # Maakt SSL connectie aan
         context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
-        context.load_cert_chain('./cert/server.crt', './cert/server.key')
+        context.load_cert_chain(domainCert, privateCert)
 
         # Maakt een verbinding voor HTTPS Socket, prikt zegmaar gat in computer om netwerk shit eruit te laten lopen
         bindsocket = socket.socket()
@@ -79,35 +79,42 @@ class HTTP_Server():
         bindsocket.listen(1)
 
         while True:
-            # Accepteert TCP connectie en maakt hem veilig met magie fzo
-            newsocket, fromaddr = bindsocket.accept()
-            connstream = context.wrap_socket(newsocket, server_side=True) # Magie
-            request = connstream.recv(1024)
+            try:
+                # Accepteert TCP connectie en maakt hem veilig met magie fzo
+                newsocket, fromaddr = bindsocket.accept()
+                connstream = context.wrap_socket(newsocket, server_side=True) # Magie
+                request = connstream.recv(1024)
 
-            # Zet gare string om naar cool object met url en shit om beter te kunnen gebruiken
-            request = Request(request)
-            # print dat er een request wordt gedaan
-            print(f"Accepting request from {fromaddr[0]}: {request.url}")
+                # Zet gare string om naar cool object met url en shit om beter te kunnen gebruiken
+                request = Request(request)
+                # print dat er een request wordt gedaan
+                print(f"Accepting request from {fromaddr[0]}: {request.url}")
 
-            # Zoekt de route op die hoort bij /info.html fzo 
-            route = FindRoute(self.routes, request.url)
+                # Zoekt de route op die hoort bij /info.html fzo 
+                route = FindRoute(self.routes, request.url)
 
-            # Maakt er een mooi HTTP objectje van en flikkert die terug naar je browser
-            if type(route) == type(Apiroute("t", None)): #Api route
-                response = route.build(request)
-            else:
-                response =  route.build(cookies)
-            
-            connstream.sendall(response.encode())
-            connstream.close()
+                # Maakt er een mooi HTTP objectje van en flikkert die terug naar je browser
+                if type(route) == type(Apiroute("t", None)): #Api route
+                    response = route.build(request)
+                else:
+                    response =  route.build(cookies)
+                
+                connstream.sendall(response.encode())
+                connstream.close()
+            except:
+                pass
 
 docker = False
+privateCert = './cert/server.key'
+domainCert = './cert/server.crt'
 
 if __name__ == "__main__":
     InitializeRoutes()
     ApiRoutes()
     if docker:
         server = HTTP_Server("0.0.0.0", 443, routes)
+        privateCert = './pbuncerts/private.key.pem'
+        domainCert = './pbuncerts/domain.cert.pem'
     else: 
         server = HTTP_Server("localhost", 1111, routes)
     server.start()
