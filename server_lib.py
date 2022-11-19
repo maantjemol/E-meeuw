@@ -1,7 +1,7 @@
 # importeert een hoop shit
 import socket, ssl, glob
 import json
-
+import uuid
 #import os 
 
 # Maakt alvast routes list aan voor later (scroll naar beneden voor spoilers)
@@ -13,7 +13,6 @@ class Response():
         self.status = status
         self.data = data
         self.contentType = contentType
-        self.cookies = cookies
 
 
     # Bouwt een HTTP message om te versturen, In dit geval in de vorm:
@@ -25,14 +24,7 @@ class Response():
     # 
 
     def build(self):
-        cookie_string = ""
-
-        if self.cookies != []:
-            for cookie in self.cookies:
-                for key in cookie:
-                    cookie_string += f"Set-Cookie: {key}={cookie[key]}\r\n"
-
-        response = f"HTTP/1.1 {self.status} OK\r\nServer: e-meeuw\r\n{cookie_string}Content-type: {self.contentType}; charset=UTF-8\n\r\n\r{self.data}\n\r\n\r"
+        response = f"HTTP/1.1 {self.status} OK\r\nServer: e-meeuw\r\nContent-type: {self.contentType}; charset=UTF-8\n\r\n\r{self.data}\n\r\n\r"
         return response
 
 
@@ -92,11 +84,11 @@ class Route():
         self.contentType = contentType
     
     # Bouwt een response voor de route, als in een HTTP message
-    def build(self, cookies):
+    def build(self, request):
         try:
             # Probeert het HTML bestand te zoeken
             file = open(self.localpath).read()
-            response = Response(200, file, self.contentType, cookies).build()
+            response = Response(200, file, self.contentType).build()
             return response
         except Exception as e:
             print(f"Error: {e}")
@@ -167,4 +159,48 @@ def FindRoute(routes, url):
             return route
     return Route("/", "./pages/404.html")
 
+
+def addUser(email:str, password:str):
+    user = {
+        "id": str(uuid.uuid4()),
+        "email": email,
+        "password": password
+    }
+    with open("./database/database.json", "r") as f:
+        fileCont = f.read()
     
+    database = json.loads(fileCont)
+    database["users"].append(user)
+    json_database = json.dumps(database)
+    
+    with open("./database/database.json", "w") as f:
+        f.write(json_database)
+
+def getUser(id:str):
+    with open("./database/database.json", "r") as f:
+        fileCont = f.read()
+    database = json.loads(fileCont)
+
+    for user in database["users"]:
+        if user["id"] == id:
+            return user["id"]
+    
+    return None
+
+def getSession(email:str, password:str):
+    with open("./database/database.json", "r") as f:
+        fileCont = f.read()
+    database = json.loads(fileCont)
+
+    for user in database["users"]:
+        if user["email"] == email:
+            if user["password"] == password:
+                return user["id"]
+    
+    return None
+
+
+
+    
+if __name__ == "__main__":
+    print(getSession(email="maantjemol@e-meeuw.de", password="jemoeder"))

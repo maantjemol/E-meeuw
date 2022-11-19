@@ -2,7 +2,6 @@ from server_lib import *
 import json
 
 routes = []
-cookies = [{"Uwu":"test"}]
 
 def NewRoute(webpath, localpath, contentType = "text/html"):
     routes.append(
@@ -42,13 +41,23 @@ def InitializeRoutes():
 
 
 def handleLogin(request):
+    request_data = json.loads(request.body)
+    
+    session = getSession(email=request_data["username"], password=request_data["password"])
+    
     resp = {
-        "tesasdfast": "uwu"
+        "error": "Username or password not correct",
+        "success": False
     }
 
-    cookies.append({"sadfasdf":"test"})
+    if session:
+        resp = {
+            "cookie": session,
+            "success": True
+        }
 
     return resp
+
 
 
 def ApiRoutes():
@@ -97,12 +106,12 @@ class HTTP_Server():
                 if type(route) == type(Apiroute("t", None)): #Api route
                     response = route.build(request)
                 else:
-                    response =  route.build(cookies)
+                    response =  route.build(request)
                 
                 connstream.sendall(response.encode())
                 connstream.close()
-            except:
-                pass
+            except Exception as e:
+                print(e)
 
 docker = False
 privateCert = './cert/server.key'
@@ -116,5 +125,5 @@ if __name__ == "__main__":
         privateCert = './pbuncerts/private.key.pem'
         domainCert = './pbuncerts/domain.cert.pem'
     else: 
-        server = HTTP_Server("localhost", 1111, routes)
+        server = HTTP_Server("localhost", 1113, routes)
     server.start()
