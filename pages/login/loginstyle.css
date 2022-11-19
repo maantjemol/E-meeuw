@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&family=Poppins:wght@400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&family=Poppins:wght@400;500;600&display=swap");
 
 * {
   margin: 0;
@@ -62,28 +62,28 @@ form .txt_field {
   transform: translateY(-50%);
   font-size: 16px;
   pointer-events: none;
-  transition: .5s;
+  transition: 0.5s;
 }
 
 .txt_field span::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 40px;
   left: 0;
   width: 0%;
   height: 2px;
   background: #2691d9;
-  transition: .5s;
+  transition: 0.5s;
 }
 
-.txt_field input:focus~label,
-.txt_field input:valid~label {
+.txt_field input:focus ~ label,
+.txt_field input:valid ~ label {
   top: -5px;
   color: #2691d9;
 }
 
-.txt_field input:focus~span::before,
-.txt_field input:valid~span::before {
+.txt_field input:focus ~ span::before,
+.txt_field input:valid ~ span::before {
   width: 100%;
 }
 
@@ -97,7 +97,7 @@ form .txt_field {
   text-decoration: underline;
 }
 
-input[type="submit"] {
+button {
   width: 100%;
   height: 50px;
   border: 1px solid;
@@ -110,9 +110,14 @@ input[type="submit"] {
   outline: none;
 }
 
-input[type="submit"]:hover {
+button:hover {
   border-color: #2691d9;
-  transition: .5s;
+  transition: 0.5s;
+}
+
+button:disabled {
+  background-color: #878787;
+  transition: 0.5s;
 }
 
 .signup_link {
@@ -129,4 +134,11 @@ input[type="submit"]:hover {
 
 .signup_link a:hover {
   text-decoration: underline;
+}
+
+#error {
+  display: none;
+  padding-top: 24px;
+  color: rgb(250, 91, 91);
+  text-align: center;
 }
