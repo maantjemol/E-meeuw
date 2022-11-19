@@ -17,6 +17,33 @@ class Email_Server():
         sock.send("HELO".encode())
         response = sock.recv(2048).decode()
         print(response)
+        
+        if "OK" in response:
+            sock.send("MAIL FROM: <afzender@afzender.nl>".encode())
+        else:
+            print(f"could not connect to server. error: {response}")
+            return
+        response = sock.recv(2048).decode()
+        print(response)
+        
+        if "OK" in response:
+            sock.send("RCPT TO: <ontvanger@ontvanger.be>".encode())
+        else:
+            print(f"could not connect to server. error: {response}")
+            return
+        response = sock.recv(2048).decode()
+        print(response)
+        
+        if "OK" in response:
+            sock.send("DATA".encode())
+        else:
+            print(f"could not connect to server. error: {response}")
+            return
+        
+        response = sock.recv(2048).decode()
+        print(response)
+
+        
 
         
 
