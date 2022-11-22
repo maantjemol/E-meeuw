@@ -103,10 +103,7 @@ class HTTP_Server():
                 route = FindRoute(self.routes, request.url)
 
                 # Maakt er een mooi HTTP objectje van en flikkert die terug naar je browser
-                if type(route) == type(Apiroute("t", None)): #Api route
-                    response = route.build(request)
-                else:
-                    response =  route.build(request)
+                response =  route.build(request)
                 
                 connstream.sendall(response.encode())
                 connstream.close()
