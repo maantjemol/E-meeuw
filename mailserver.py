@@ -13,6 +13,8 @@ global SendEmail
 
 def acceptEmail(connstream):
     
+    email = ''
+
     print("got connection!")
 
     request = connstream.recv(1024).decode()
@@ -55,13 +57,30 @@ def acceptEmail(connstream):
         return
     
     request = connstream.recv(1024).decode()
-    if request == "DATA":
+    if "DATA" in request:
         fprint(request)
         connstream.sendall("354 End data with <CR><LF>.<CR><LF>".encode())
     else:
         connstream.sendall("450".encode())
         connstream.close()
         return
+    
+    while True:
+        request = connstream.recv(1024).decode()
+        if '\r\n.\r\n' in request:
+            connstream.sendall("250 OK: queued as 12345".encode())
+            break
+        else:
+            connstream.sendall("250 OK".encode())
+            email += request
+    
+    request = connstream.recv(1024).decode()
+    if request == "QUIT":
+        connstream.sendall("221 Bye".encode())
+        connstream.close()
+
+    fprint(email)
+           
 
 
 class Email_Server():
@@ -92,6 +111,7 @@ class Email_Server():
             acceptEmail(connstream)
 
             connstream.close()
+
             
             
 
@@ -100,6 +120,6 @@ class Email_Server():
 
 
 if __name__ == "__main__":
-    server = Email_Server("localhost", 1112)
+    server = Email_Server("localhost", 1114)
     server.start()
     
