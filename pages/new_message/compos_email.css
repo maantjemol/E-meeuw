@@ -1,0 +1,42 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: rgb(4, 12, 36);
+    border: 0px;
+}
+
+h1 {
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    text-align: center;
+}
+
+p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+}
+
+.text_input {
+    border: none;
+    width: 100%;
+}
+
+.email_form {
+    width: 80vw;
+    margin: 0 10vw;
+}
+
+.butt {
+    border: none;
+    background-color: rgb(225, 96, 22);
+    color: white;
+    padding-top: 12px;
+    padding-bottom: 12px !important;
+    padding-right: 24px;
+    padding-left: 24px;
+    border-radius: 5px;
+}
+
+textarea {
+    font-family: 'Poppins', sans-serif;
+    resize: none;
+}
