@@ -1,0 +1,37 @@
+body {
+    font-family: 'Arial' , sans-serif;
+	--webkit-font-smoothing: antialiased;
+	background: rgb(91, 102, 245);
+	color: #999;
+	text-align: center;
+}
+
+.NavBar {
+    background-color: blue;
+    
+}
+
+.InboxContent {
+    background-color: aliceblue;
+    width: 80%;
+    align-items: center;
+}
+
+.Load_Button {
+    display: inline-block;
+	background: var(--primary-color);
+	text-align: center;
+	border : none;
+	cursor: pointer;
+	margin-right: 0.5rem;
+	outline: none;
+	box-shadow: 0 1px 0 rgba(0,0,0,0.45);
+	border-radius: 2px;
+}
+
+.center{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
