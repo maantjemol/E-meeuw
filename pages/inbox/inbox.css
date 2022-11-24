@@ -2,13 +2,15 @@ body {
     font-family: 'Arial' , sans-serif;
 	--webkit-font-smoothing: antialiased;
 	background: rgb(91, 102, 245);
-	color: #999;
+	color:black;
 	text-align: center;
 }
 
 .NavBar {
-    background-color: blue;
-    
+    background-color: pink;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .InboxContent {
@@ -20,7 +22,7 @@ body {
 .Load_Button {
     display: inline-block;
 	background: var(--primary-color);
-	text-align: center;
+	text-align: right;
 	border : none;
 	cursor: pointer;
 	margin-right: 0.5rem;
