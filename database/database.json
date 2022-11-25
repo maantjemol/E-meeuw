@@ -1,1 +1,151 @@
-{"users": [{"id": "b3d19da8-c681-47da-8736-25cbb97f3512", "email": "maantjemol@e-meeuw.de", "password": "jemoeder"}, {"id": "240f85bc-2dd7-437a-9507-6d48b4af91c1", "email": "maantjemol@e-meeuw.de", "password": "jemoeder"}, {"id": "c11e0afe-c5d8-4cff-a625-d9969334b2c5", "email": "maantjemol@e-meeuw.de", "password": "jemoeder"}]}
+{
+  "users": [
+    {
+      "id": "b3d19da8-c681-47da-8736-25cbb97f3512",
+      "email": "maan@e-meeuw.de",
+      "password": "lolpower"
+    },
+    {
+      "id": "51ed9756-11f4-46e7-8596-f1627a89b8ea",
+      "email": "aran@e-meeuw.de",
+      "password": "uwu"
+    }
+  ],
+  "send_emails": [
+    {
+      "from_email": "maan@e-meeuw.de",
+      "uid": "b3d19da8-c681-47da-8736-25cbb97f3512",
+      "to_email": "aran@e-meeuw.de",
+      "subject": "Soep",
+      "contents": "yay soep\n lekker eten"
+    },
+    {
+      "from_email": "maan@e-meeuw.de",
+      "uid": "b3d19da8-c681-47da-8736-25cbb97f3512",
+      "to_email": "aran@e-meeuw.de",
+      "subject": "Soep",
+      "contents": "yay soep\n lekker eten"
+    },
+    {
+      "from_email": "maan@e-meeuw.de",
+      "uid": "b3d19da8-c681-47da-8736-25cbb97f3512",
+      "to_email": "aran@e-meeuw.de",
+      "subject": "Soep",
+      "contents": "yay soep\n lekker eten"
+    },
+    {
+      "from_email": "maan@e-meeuw.de",
+      "uid": "b3d19da8-c681-47da-8736-25cbb97f3512",
+      "to_email": "aran@e-meeuw.de",
+      "subject": "Soep",
+      "contents": "yay soep\n lekker eten"
+    },
+    {
+      "from_email": "maan@e-meeuw.de",
+      "uid": "b3d19da8-c681-47da-8736-25cbb97f3512",
+      "to_email": "aran@e-meeuw.de",
+      "subject": "Soep",
+      "contents": "yay soep\n lekker eten"
+    },
+    {
+      "from_email": "maan@e-meeuw.de",
+      "uid": "b3d19da8-c681-47da-8736-25cbb97f3512",
+      "to_email": "aran@e-meeuw.de",
+      "subject": "Soep",
+      "contents": "yay soep\n lekker eten"
+    },
+    {
+      "from_email": "maan@e-meeuw.de",
+      "uid": "b3d19da8-c681-47da-8736-25cbb97f3512",
+      "to_email": "aran@e-meeuw.de",
+      "subject": "Soep",
+      "contents": "yay soep\n lekker eten"
+    },
+    {
+      "from_email": "maan@e-meeuw.de",
+      "uid": "b3d19da8-c681-47da-8736-25cbb97f3512",
+      "to_email": "aran@e-meeuw.de",
+      "subject": "Soep",
+      "contents": "yay soep\n lekker eten"
+    },
+    {
+      "from_email": "maan@e-meeuw.de",
+      "uid": "b3d19da8-c681-47da-8736-25cbb97f3512",
+      "to_email": "aran@e-meeuw.de",
+      "subject": "Soep",
+      "contents": "yay soep\n lekker eten"
+    },
+    {
+      "from_email": "maan@e-meeuw.de",
+      "uid": "b3d19da8-c681-47da-8736-25cbb97f3512",
+      "to_email": "aran@e-meeuw.de",
+      "subject": "Soep",
+      "contents": "yay soep\n lekker eten"
+    },
+    {
+      "from_email": "maan@e-meeuw.de",
+      "uid": "b3d19da8-c681-47da-8736-25cbb97f3512",
+      "to_email": "aran@e-meeuw.de",
+      "subject": "Soep",
+      "contents": "yay soep\n lekker eten"
+    },
+    {
+      "from_email": "maan@e-meeuw.de",
+      "uid": "b3d19da8-c681-47da-8736-25cbb97f3512",
+      "to_email": "aran@e-meeuw.de",
+      "subject": "Soep",
+      "contents": "Hoi ik ben manuel!!"
+    },
+    {
+      "from_email": "maan@e-meeuw.de",
+      "uid": "b3d19da8-c681-47da-8736-25cbb97f3512",
+      "to_email": "aran@e-meeuw.de",
+      "subject": "Soep",
+      "contents": "Hoi ik ben manuel!!"
+    }
+  ],
+  "recieved_emails": [
+    {
+      "from_email": "maan@e-meeuw.de",
+      "uid": "b3d19da8-c681-47da-8736-25cbb97f3512",
+      "to_email": "aran@e-meeuw.de",
+      "subject": "Soep",
+      "contents": "yay soep\n lekker eten"
+    },
+    {
+      "from_email": "maan@e-meeuw.de",
+      "uid": "b3d19da8-c681-47da-8736-25cbb3512",
+      "to_email": "aran@e-meeuw.de",
+      "subject": "Soep",
+      "contents": "yay soep\n lekker eten"
+    },
+    {
+      "from_email": "maan@e-meeuw.de",
+      "uid": "b3d19da8-c681-47da-8736-25cbb97f3512",
+      "to_email": "aran@e-meeuw.de",
+      "subject": "Soep",
+      "contents": "Poepoe poa"
+    },
+    {
+      "from_email": "maan@e-meeuw.de",
+      "uid": "51ed9756-11f4-46e7-8596-f1627a89b8ea",
+      "to_email": "aran@e-meeuw.de",
+      "subject": "none",
+      "contents": "yay soep\n lekker eten\r\n"
+    },
+    {
+      "from_email": "maan@e-meeuw.de",
+      "uid": "51ed9756-11f4-46e7-8596-f1627a89b8ea",
+      "to_email": "aran@e-meeuw.de",
+      "subject": "none",
+      "contents": "Hoi ik ben manuel!!\r\n"
+    },
+    {
+      "from_email": "maan@e-meeuw.de",
+      "uid": "51ed9756-11f4-46e7-8596-f1627a89b8ea",
+      "to_email": "aran@e-meeuw.de",
+      "subject": "none",
+      "contents": "Hoi ik ben manuel!!\r\n"
+    }
+  ]
+}
