@@ -177,15 +177,29 @@ def addUser(email:str, password:str):
         f.write(json_database)
 
 def getUser(id:str):
+    """Gets User
+
+    Args:
+        id (uid): A uid: b3d19da8-c681-47da-8736-25cbb97f3512
+
+    Returns:
+        {
+            "id": "b3d19da8-c681-47da-8736-25cbb97f3512",
+            "email": "maan@e-meeuw.de",
+            "password": "lolpower"
+        }
+    """
     with open("./database/database.json", "r") as f:
         fileCont = f.read()
     database = json.loads(fileCont)
 
     for user in database["users"]:
         if user["id"] == id:
-            return user["id"]
+            return user
     
     return None
+
+
 
 def getSession(email:str, password:str):
     with open("./database/database.json", "r") as f:
@@ -200,7 +214,6 @@ def getSession(email:str, password:str):
     return None
 
 
-
     
 if __name__ == "__main__":
-    print(getSession(email="maantjemol@e-meeuw.de", password="jemoeder"))
+    addUser("aran@e-meeuw.de", "uwu")
