@@ -1,20 +1,59 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <link rel="stylesheet" href="/new_message/compos_email.css" />
+    <link
+      rel="stylesheet"
+      href="https://the.missing.style/v1.0.3/missing.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://the.missing.style/v1.0.3/missing-prism.min.css"
+    />
+  </head>
 
-<head>
-    <link rel="stylesheet" href="compos_email.css" />
-</head>
-
-<body>
-
+  <body>
     <h1>New message</h1>
 
-    <form class="email_form" action="/action_page.php">
-        <input class="text_input" type="text" id="e-mail" name="e-mail" placeholder="Recipient"><br><br>
-        <input class="text_input" type="text" id="e-mail" name="e-mail" placeholder="Subject"><br><br>
-        <textarea class="text_input" id="w3review" name="w3review" rows="25" cols="80"></textarea>
-        <br> <button class="butt">Send</button>
+    <form class="email_form" action="" id="email_form">
+      <input
+        class="text_input"
+        type="email"
+        id="recipient"
+        name="e-mail"
+        placeholder="Recipient"
+        required
+      /><br /><br />
+      <input
+        class="text_input"
+        type="text"
+        id="subject"
+        name="e-mail"
+        placeholder="Subject"
+        required
+      /><br /><br />
+      <textarea
+        class="text_input text_input_large"
+        id="content"
+        name="w3review"
+        rows="25"
+        cols="60"
+        required
+        placeholder="Message"
+      ></textarea>
+      <br />
+      <button class="butt" id="submit_button" type="submit">Send</button>
+      <div class="box ok" id="success">
+        <strong>Succes</strong>: Email has been send!
+        <a href="/inbox">return to inbox</a>
+        <!-- ... -->
+      </div>
+      <div class="box bad" id="error">
+        <strong>Error</strong>: An error occurred
+        <a href="/inbox">return to inbox</a>
+        <!-- ... -->
+      </div>
     </form>
-</body>
-
+  </body>
+  <script src="/new_message/main.js"></script>
 </html>

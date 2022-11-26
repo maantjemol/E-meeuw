@@ -23,7 +23,7 @@ async function getEmails() {
     uid: document.cookie.split("id=")[1],
   });
 
-  let response = await fetch("https://localhost:1115/api/getmail", {
+  let response = await fetch("https://localhost:1115/api/getsendmail", {
     method: "POST",
     body: bodyContent,
     headers: headersList,
@@ -42,7 +42,7 @@ async function getEmails() {
 }
 
 loadButton.addEventListener("click", async function (e) {
-  await getEmails();
+  await getEmails(e);
 });
 
 document.addEventListener("DOMContentLoaded", async function () {
