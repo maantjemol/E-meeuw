@@ -6,6 +6,8 @@ import ssl
 import threading
 from mail_lib import *
 from server_lib import *
+from database import *
+from api import *
 routes = []
 docker = False
 
@@ -40,66 +42,6 @@ class Email_Server():
             connstream.close()
 
 
-def handleSendMail(request):
-    request_data = json.loads(request.body)
-    user_data = getUser(request_data["uid"])
-
-    if not user_data:
-        return {"success": False, "error": "uid not found"}
-    
-    from_email = user_data["email"]
-
-    to_email = request_data["to_email"]
-    subject = request_data["subject"]
-    uid = request_data["uid"]
-    contents = request_data["contents"]
-
-    addSendEmail(
-        from_email = from_email,
-        to_email = to_email,
-        subject = subject,
-        uid = uid,
-        contents = contents,
-    )
-    # session = getSession(email=request_data["username"], password=request_data["password"])
-    server_address = to_email.split("@")[-1]
-    port = 25
-
-    if("e-meeuw.de" in server_address):
-        server_address = "localhost"
-        port = 1114
-
-    sendEmail(
-        mail_from = from_email, 
-        mail_to = to_email, 
-        message = contents, 
-        server_address = server_address, 
-        subject=subject,
-        port=port
-    )
-
-    resp = {
-        "success": True
-    }
-
-    return resp
-
-def handleGetMail(request):
-    request_data = json.loads(request.body)
-
-    if not request_data["uid"]:
-        return {"success": False, "error": "no UID"}
-
-    emails = getMail(request_data["uid"])
-
-    resp = {
-        "success": True,
-        "emails": emails
-    }
-
-    return resp
-
-
 def ApiRoutes():
 
     routes.append(Apiroute(
@@ -123,13 +65,18 @@ def ApiRoutes():
     ))
 
     routes.append(Apiroute(
+        webpath="/api/getsendmail",
+        responseFunc=handleGetSendMail
+    ))
+
+    routes.append(Apiroute(
         webpath="/api/login",
         responseFunc=handleLogin
     ))
 
-def NewRoute(webpath, localpath, contentType = "text/html"):
+def NewRoute(webpath, localpath, contentType = "text/html", auth=False):
     routes.append(
-        Route(webpath, localpath, contentType)
+        Route(webpath, localpath, contentType, auth=auth)
     )
 
 def InitializeRoutes():
@@ -139,8 +86,12 @@ def InitializeRoutes():
         route = "/" + filepath.split("/", 2)[2]
         print(route)
 
+        auth = False
+        if "inbox" in route or "compose_email" in route:
+            auth = True
+
         if filepath.split(".")[-1] == "css": # CSS support
-            NewRoute(route, filepath, "text/css")
+            NewRoute(route, filepath, "text/css", auth=False)
 
         if filepath.split(".")[-1] == "gif": # GIF support
             NewRoute(route, filepath, "image/gif")
@@ -153,35 +104,20 @@ def InitializeRoutes():
         
         if filepath.split(".")[-1] == "js": # JS support
             print("js")
-            NewRoute(route, filepath, "text/javascript")
+            NewRoute(route, filepath, "text/javascript", auth=False)
 
         else:
-            NewRoute(route, filepath)
+            NewRoute(route, filepath, auth=auth)
     
-    NewRoute("/", "./pages/index.html")
-    NewRoute("/testpagina", "./pages/index.html")
+    NewRoute("/", "./pages/index.html", auth=False)
+    NewRoute("/testpagina", "./pages/index.html", auth=False)
+    NewRoute("/404", "./pages/404.html", auth=False)
+    NewRoute("/login", "./pages/login/login.html", auth=False)
+    NewRoute("/new_message", "./pages/new_message/compose_email.html", auth=True)
+    NewRoute("/inbox", "./pages/inbox/inbox.html", auth=True)
 
 
-def handleLogin(request):
-    request_data = json.loads(request.body)
-    
-    session = getSession(email=request_data["username"], password=request_data["password"])
-    
-    resp = {
-        "error": "Username or password not correct",
-        "success": False
-    }
-
-    if session:
-        resp = {
-            "cookie": session,
-            "success": True
-        }
-
-    return resp
-
-
-
+# https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security
 class HTTP_Server():
     def __init__(self, address:str, port:int, routes:list):
         self.port = port
@@ -197,7 +133,7 @@ class HTTP_Server():
 
         # Maakt een verbinding voor HTTPS Socket, prikt zegmaar gat in computer om netwerk shit eruit te laten lopen
         bindsocket = socket.socket()
-        bindsocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        bindsocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 5)
         bindsocket.bind((self.address, self.port))
         # gaat luisteren of er ook shit naar binnen komt
         bindsocket.listen(1)
@@ -217,8 +153,23 @@ class HTTP_Server():
                 # Zoekt de route op die hoort bij /info.html fzo 
                 route = FindRoute(self.routes, request.url)
 
+                # if request.cookie:
+                #     if getUser(request.cookie):
+                #         response =  route.build(request)
+                #     else:
+                #         response= Route("/login", "./pages/login/login.html").build(request)
+
                 # Maakt er een mooi HTTP objectje van en flikkert die terug naar je browser
                 response =  route.build(request)
+
+                print(route.auth)
+
+                if route.auth and (not request.cookie or not getUser(request.cookie)):
+                    response = Redirect("/login/login.html").build()
+
+                print(response)
+                # if "404" not in route.webpath:
+                #     response = Redirect("/404").build()
                 
                 connstream.sendall(response.encode())
                 connstream.close()
@@ -243,6 +194,13 @@ if __name__ == "__main__":
 
     t1.start()
     t3.start()
+
+
+# TODO: log out
+# TODO: Errors laten zien
+# TODO:
+# TODO: Testing
+
 
     
     
