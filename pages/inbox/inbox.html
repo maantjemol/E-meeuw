@@ -20,28 +20,22 @@
     />
   </head>
 
-    <body>
-        <header>
-            <h1>Inbox</h1>
-        </header>S
-
-        <div class="NavBar">
-            <h2>Navigation Bar</h2>
-            <nav>
-                <a href="/inbox/inbox.html">Inbox</a>
-                <a href="/sent/sent.html">Sent</a>
-            </nav>
+  <body>
+    <header>
+      <h1>Inbox</h1>
+      <div class="NavBar">
+        <nav>
+          <a class="active" href="/inbox/inbox.html">Inbox</a>
+          <a href="/sent/sent.html">Sent</a>
+          <a href="/new_message">New Message</a>
+        </nav>
+      </div>
+    </header>
+      <div class="center">
+        <div class="InboxContent" id="InboxContent">
+          <h2>Received mails</h2><button id="loadButton">Load emails</button>
         </div>
+      </div>
 
-        <div class="Load_Button">
-            <p>Reload mails</p>
-        </div> 
-
-        <div class="center">
-            <div class="InboxContent">
-                <h1>Received mails</h1>
-            </div>
-        </div>
-
-    </body>
+  </body>
 </html>
