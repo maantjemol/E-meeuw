@@ -37,7 +37,11 @@ async function submitForm(e) {
       return;
     }
 
-    document.cookie = `id=${data.cookie}`;
+    document.cookie = `id=${data.cookie};path=/`;
+    // setTimeout((document.location.href = "/inbox/inbox.html"), 1000);
+    window.setTimeout(function () {
+      document.location.href = "/inbox/inbox.html";
+    }, 1000);
   }
 }
 
