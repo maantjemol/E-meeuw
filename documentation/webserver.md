@@ -1,12 +1,36 @@
-# Webserver
+# Structure of the code
+@Of hoort dit bij de README. 
+The main file is mailserver.py. For clarity, we put some methods in a different file. We import mail_lib.py, server_lib.py and database.py.
 
-The HTTPs server will establish a secure TCP connection from the webserver to the browser.  
+# Webserver
+The HTTPs server will establish a secure TCP connection from the webserver to the browser. The webserver consists of the class `HTTP_Server()` from the file `mailserver.py` and other classes and methods from the file `server_lib.py` 
 
 ## class Response()
 A Class to compose the HTTP message. 
 We pass the arguments `status` and `data`, where in our case `data` refers to our webpages. 
+
+An example of the HTTP message it returns: 
+```
+ HTTP/1.1 200 OK
+   Server: Your_Mom
+   Content-type: text/html; charset=UTF-8
+   "Eventuele data"
+```
+
+### method Build()
 The class contains the method `build()`.
 `build()` returns the HTTP message, the message is created using a f-string, parsing the status and data variables. 
+
+## class Redirect()
+A class to ease the process to composing the response message by ...
+
+### method Build()
+`build()` returns a HTTP message. The message is created by parsing the `webpath` variable in a string. 
+
+## class Apiroute()
+A class to 
+
+### method Build()
 
 ## class Request()
 A Class to format the request received from the browser. 
@@ -34,9 +58,14 @@ Will result in the `method` GET, the `url` /search.html and the `headers`:
 }
 ```
 
+### method Parse_json()
+
+
 ## class Route()
 A class to compose the route. 
 We pass the arguments `webpath` and `localpath`.
+
+### method Build()
 The class contains the method `build()`.
 `build()` will try to find the HTML file, specified in the `localpath` variable, in the folder `pages`. When it does, `build()` will build a HTTP response using the `Response.build()` method with status 200 and the file. In case the HTML file is not found, the method will return a response with status 404 and the message 'Not found'.
 Furthermore, the class contains the following methods:
@@ -45,7 +74,7 @@ Furthermore, the class contains the following methods:
 This method will append a new route to a list of routes. 
 The route is created inside the method, using the parameters `webpath` and `localpath`, and then added to the list `routes`.
 
-### method InitializeRoutes()
+### method InitializeRoutes() @Different file
 This method will go through all the files in the folder `pages` and initialize the method `NewRoute()` to map the routes to all pages. All routes are then added to the list `routes`. 
 
 ### method FindFiles()
@@ -53,7 +82,7 @@ This method will return a list of all the files in a folder.
 In order to do this, we initialize the `glob()` method to retrieve the pathnames and add them to the list `files`.
 
 
-## class HTTP_Server
+## class HTTP_Server @mailserver.py
 This class .... We pass the arguments `self`, `address`, `port`, and `routes`.
 Furtermore, the class contains the method `start()`
 
