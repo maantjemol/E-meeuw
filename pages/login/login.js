@@ -1,6 +1,8 @@
 email_text = document.getElementById("email");
 password_text = document.getElementById("password");
 
+let error_box = document.getElementById("error");
+
 const checkInputs = () => {};
 
 // button.onclick = async () => {};
@@ -34,8 +36,10 @@ async function submitForm(e) {
 
     if (data.error) {
       console.log(data.error);
+      error_box.style.display = "block";
       return;
     }
+    error_box.style.display = "none";
 
     document.cookie = `id=${data.cookie};path=/`;
     // setTimeout((document.location.href = "/inbox/inbox.html"), 1000);
