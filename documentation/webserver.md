@@ -6,63 +6,78 @@ The main file is mailserver.py. For clarity, we put some methods in a different 
 The HTTPs server will establish a secure TCP connection from the webserver to the browser. The webserver consists of the class `HTTP_Server()` from the file `mailserver.py` and other classes and methods from the file `server_lib.py` 
 
 ## class Response()
-A Class to compose the HTTP message. 
-We pass the arguments `status` and `data`, where in our case `data` refers to our webpages. 
+A Class to build a HTTP response message. 
+We pass the arguments `status`, `data`, `contentType` and `cookies`.  Here, `data` refers to our webpages. Furthermore, `contentType` defaults to `"text/html"` and  `cookies` is set to an empty list.
 
-An example of the HTTP message it returns: 
-```
- HTTP/1.1 200 OK
-   Server: Your_Mom
-   Content-type: text/html; charset=UTF-8
-   "Eventuele data"
+An example of the HTTP message `response()` returns: 
+```http
+HTTP/1.1 200 OK
+Server: Your_Mom
+Content-type: text/html; charset=UTF-8
+"Eventuele data"
 ```
 
 ### method Build()
-The class contains the method `build()`.
-`build()` returns the HTTP message, the message is created using a f-string, parsing the status and data variables. 
+The class contains the method `build()` to compose the HTTP message.
+The message is created using a f-string, by parsing the `status`, `contentType` and `data` variables to a string containing a template for the message. 
+
 
 ## class Redirect()
-A class to ease the process to composing the response message by ...
+In case we cannot reach a page, we can redirect the user to another one. This is the purpose of this class. `Redirect()` returns a HTTP message similar to the one `response()` produces.
+
+An example of the HTTP message `redirect()` returns: 
+```http
+HTTP/1.1 301 Moved Permanently
+Location: login/login.html
+Cache-Control: no-store
+```
 
 ### method Build()
-`build()` returns a HTTP message. The message is created by parsing the `webpath` variable in a string. 
+`build()` returns a HTTP message. The message is created by parsing the `webpath` variable in a string containing a template for this message. In the template, the statuscode is already set to 301 and the cache-control is turned off, meaning browsers are not allowed to cache a response and must pull it from the server each time it's requested. This is necessary to keep the browser from passing over the original location indefinitely. 
 
 ## class Apiroute()
-A class to 
+A class to format a HTTP response to ... based on information from the api?
 
 ### method Build()
+The cookie and succes variable obtained when executing responseFunc are formatted to a JSON string by `json.dumps`.
+`build()` returns a HTTP message with `statuscode` 200, the JSON string and `contentType` "application/json". 
 
 ## class Request()
 A Class to format the request received from the browser. 
 We pass the argument `request` of type bytes. 
-Furthermore, the class contains the following object properties:
-- `request_string`, where the bytes from the `request` argument are translated to a string. 
+Furthermore, the class initializes the following object properties:
+- `request_string`; where the bytes from the `request` argument are translated to a string. 
 - `method`, the first word of the `request_string`
 - `url`, the second word of the `request_string`
-- `headers`, a dictionary object containing the headers of the request. 
-
+- `body`, this variable defaults to `none`
+- `cookie`, this variable defaults to `none`
+- `headers`, a dictionary object containing the different headers of the request.
 
 For example, the following `request_string`: 
 ```http
 GET /search.html HTTP/1.1
 Host: www.google.com
 User-Agent: Mozilla/5.0
+Cookie: id=51ed9756-11f4-46e7-8596-f1627a89b8ea;
 Accept: /
 ```
-Will result in the `method` GET, the `url` /search.html and the `headers`: 
+Will result in the `method` GET, the `url` /search.html, the `cookie` 51ed9756-11f4-46e7-8596-f1627a89b8ea and the `headers`: 
 ```json
 {
    "Host":"www.google.com",
    "User-Agent":"Mozilla/5.0",
+   "Cookie":"id=51ed9756-11f4-46e7-8596-f1627a89b8ea",
    "Accept":"/"
 }
 ```
 
-### method Parse_json()
+Finally, for the `cookie` variable, we remove the 'id=' to suit our future format purposes. 
 
+### method Parse_json()
+A method that returns a JSON document in the format of a Python object. We utilize the method `json.loads()` to chance the format. 
 
 ## class Route()
-A class to compose the route. 
+A class to build the route. 
 We pass the arguments `webpath` and `localpath`.
 
 ### method Build()
@@ -96,3 +111,4 @@ When a connection comes in, we return a new socket representing the connection a
 
 
 
+152 Redirecten als: User bestaat niet, er zijn geen cookies. 
