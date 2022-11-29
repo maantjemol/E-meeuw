@@ -23,7 +23,7 @@ def getEmailUid(email:str):
     
     return None
 
-def sendEmail(mail_from:str, mail_to:str, message:str, server_address:str, subject:str, port:int = 25):
+def sendEmail(mail_from:str, mail_to:str, message:str, server_address:str, subject:str, port:int = 26):
     try:
         sock = getSSLSocket()
         sock.settimeout(5)

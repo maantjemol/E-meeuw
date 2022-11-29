@@ -43,11 +43,11 @@ def handleSendMail(request):
     )
     # session = getSession(email=request_data["username"], password=request_data["password"])
     server_address = to_email.split("@")[-1]
-    port = 25
+    port = 26
 
-    if("e-meeuw.de" in server_address):
-        server_address = "localhost"
-        port = 1114
+    # if("e-meeuw.de" in server_address):
+    #     server_address = "localhost"
+    #     port = 1114
 
     status = sendEmail(
         mail_from = from_email, 

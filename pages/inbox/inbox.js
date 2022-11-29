@@ -24,7 +24,7 @@ async function getEmails() {
     uid: document.cookie.split("id=")[1],
   });
 
-  let response = await fetch("https://localhost:1115/api/getmail", {
+  let response = await fetch("/api/getmail", {
     method: "POST",
     body: bodyContent,
     headers: headersList,
