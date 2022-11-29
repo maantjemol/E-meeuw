@@ -47,21 +47,11 @@ def ApiRoutes():
     routes.append(Apiroute(
         webpath="/api/sendmail",
         responseFunc=handleSendMail
-        # {
-        #     "from_email": from_email,
-        #     "uid": uid,
-        #     "to_email": to_email,
-        #     "subject": subject,
-        #     "contents": contents
-        # }
     ))
 
     routes.append(Apiroute(
         webpath="/api/getmail",
         responseFunc=handleGetMail
-        # {
-        #     "uid": uid,
-        # }
     ))
 
     routes.append(Apiroute(
