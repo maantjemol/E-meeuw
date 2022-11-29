@@ -17,7 +17,7 @@ let bodyContent = JSON.stringify({
   password: "lolhaha",
 });
 
-fetch("https://localhost:1111/api/login", {
+fetch("/api/login", {
   method: "POST",
   body: bodyContent,
   headers: headersList,

@@ -21,7 +21,7 @@ form.addEventListener("submit", async function (e) {
     contents: content_text.value,
   });
 
-  let response = await fetch("https://localhost:1115/api/sendmail", {
+  let response = await fetch("/api/sendmail", {
     method: "POST",
     body: bodyContent,
     headers: headersList,

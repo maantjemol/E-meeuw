@@ -159,14 +159,22 @@ class HTTP_Server():
             except Exception as e:
                 print(e)
 
-docker = False
+docker = True
 privateCert = './cert/server.key'
 domainCert = './cert/server.crt'
+
+if docker:
+    privateCert = './pbuncerts/private.key.pem'
+    domainCert = './pbuncerts/domain.cert.pem'
 
 
 if __name__ == "__main__":
     email_server = Email_Server("localhost", 1114)
     web_server = HTTP_Server("localhost", 1115, routes)
+
+    if docker:
+        web_server = HTTP_Server("0.0.0.0", 443, routes)
+        email_server = Email_Server("0.0.0.0", 26)
 
     InitializeRoutes()
     ApiRoutes()
