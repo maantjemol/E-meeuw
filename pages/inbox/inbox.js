@@ -1,14 +1,15 @@
 let email_list = document.getElementById("InboxContent");
 let loadButton = document.getElementById("loadButton");
 
-const addEmail = (subject, content) => {
+const addEmail = (subject, content, toemail) => {
   var entry = document.createElement("details");
-
+  content = content.replaceAll("\n", "<br>");
   var summary = document.createElement("summary");
-  summary.innerText = subject;
+  var emailtext = document.createElement("p");
+  emailtext.innerHTML = content;
+  summary.innerText = `${subject} | ${toemail}`;
   entry.appendChild(summary);
-  entry.appendChild(document.createTextNode(content));
-
+  entry.appendChild(emailtext);
   email_list.appendChild(entry);
 };
 
@@ -36,10 +37,21 @@ async function getEmails() {
     for (let i = 0; i < data.emails.length; i++) {
       const email = data.emails[i];
       console.log(email);
-      addEmail(email.subject, email.contents);
+      addEmail(email.subject, email.contents, email.from_email);
     }
   }
 }
+
+let logout_button = document.getElementById("logout");
+async function logout() {
+  document.cookie = "id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  window.setTimeout(function () {
+    document.location.href = "/inbox/inbox.html";
+  }, 500);
+}
+logout_button.addEventListener("click", async function (e) {
+  await logout(e);
+});
 
 loadButton.addEventListener("click", async function (e) {
   await getEmails();

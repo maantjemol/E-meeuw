@@ -26,5 +26,12 @@ body {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+}
+
+details {
+  width: 100%;
+}
+
+details > p {
+  text-align: left;
 }

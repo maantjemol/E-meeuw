@@ -143,12 +143,6 @@ class HTTP_Server():
                 # Zoekt de route op die hoort bij /info.html fzo 
                 route = FindRoute(self.routes, request.url)
 
-                # if request.cookie:
-                #     if getUser(request.cookie):
-                #         response =  route.build(request)
-                #     else:
-                #         response= Route("/login", "./pages/login/login.html").build(request)
-
                 # Maakt er een mooi HTTP objectje van en flikkert die terug naar je browser
                 response =  route.build(request)
 
@@ -158,8 +152,7 @@ class HTTP_Server():
                     response = Redirect("/login/login.html").build()
 
                 print(response)
-                # if "404" not in route.webpath:
-                #     response = Redirect("/404").build()
+
                 
                 connstream.sendall(response.encode())
                 connstream.close()
@@ -184,13 +177,3 @@ if __name__ == "__main__":
 
     t1.start()
     t3.start()
-
-
-# TODO: log out
-# TODO: Errors laten zien
-# TODO:
-# TODO: Testing
-
-
-    
-    
