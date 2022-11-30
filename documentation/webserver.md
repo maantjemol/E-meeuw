@@ -74,27 +74,34 @@ Will result in the `method` GET, the `url` /search.html, the `cookie` 51ed9756-1
 Finally, for the `cookie` variable, we remove the 'id=' to suit our future format purposes. 
 
 ### method Parse_json()
-A method that returns a JSON document in the format of a Python object. We utilize the method `json.loads()` to chance the format. 
+A method that returns a JSON document in the format of a Python object. We utilize the method `json.loads()` to chance the format of the input. 
+
 
 ## class Route()
 A class to build the route. 
-We pass the arguments `webpath` and `localpath`.
+We pass the arguments `webpath`, `localpath`, `contentType` and `auth`, where `ContentType` defaults to "text/html" and `auth` defaults to False.
+`Webpath` refers to XXX and `localpath` refers to XXX. 
 
 ### method Build()
 The class contains the method `build()`.
-`build()` will try to find the HTML file, specified in the `localpath` variable, in the folder `pages`. When it does, `build()` will build a HTTP response using the `Response.build()` method with status 200 and the file. In case the HTML file is not found, the method will return a response with status 404 and the message 'Not found'.
-Furthermore, the class contains the following methods:
 
-### method NewRoute()
-This method will append a new route to a list of routes. 
-The route is created inside the method, using the parameters `webpath` and `localpath`, and then added to the list `routes`.
 
-### method InitializeRoutes() @Different file
-This method will go through all the files in the folder `pages` and initialize the method `NewRoute()` to map the routes to all pages. All routes are then added to the list `routes`. 
+`build()` will search the folder `pages` for the HTML file specified in the `localpath` variable. When we access the file, `build()` will build a HTTP response using the `Response.build()` method with status 200, the file and contentType. In case the HTML file is not found, the method will return a response with status 404 and the message 'Not found'.
 
-### method FindFiles()
-This method will return a list of all the files in a folder. 
-In order to do this, we initialize the `glob()` method to retrieve the pathnames and add them to the list `files`.
+
+## method NewRoute()
+This method will append a new route to the list of routes created at the top of the file `server_lib.py`. 
+The route is created inside the method, using the parameters `webpath`, `localpath`, `contentType` and `auth`, and then added to the list `routes`. 
+
+
+## method FindFiles()
+This method will return a list of all the files in the folder specified as the argument of this function. In order to do this, we initialize the `glob()` method to retrieve the pathnames and add them to the list `files`. We then return the list `files`.
+
+
+## method FindRoutes()
+This method will compare the route and url to see if they match. When the route's `webpath` equals the `url` provided as argument, the method will return the route. In case the two do not match, we return the route to our errorpage.  
+
+
 
 
 ## class HTTP_Server @mailserver.py
@@ -112,3 +119,5 @@ When a connection comes in, we return a new socket representing the connection a
 
 
 152 Redirecten als: User bestaat niet, er zijn geen cookies. 
+## method InitializeRoutes() @Different file
+This method will go through all the files in the folder `pages` and initialize the method `NewRoute()` to map the routes to all pages. All routes are then added to the list `routes`.
