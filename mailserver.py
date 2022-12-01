@@ -159,7 +159,7 @@ class HTTP_Server():
             except Exception as e:
                 print(e)
 
-docker = True
+docker = False
 privateCert = './cert/server.key'
 domainCert = './cert/server.crt'
 
