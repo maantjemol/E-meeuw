@@ -22,22 +22,20 @@ class Email_Server():
     def start(self):
         """Starts the email server
         """
-        print(f"Server is starting on {self.address}:{self.port}\n")
+        print(f"SMTP server is starting on {self.address}:{self.port}\n")
 
-        # Maakt SSL connectie aan
         context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
         context.load_cert_chain('./cert/server.crt', './cert/server.key')
 
-        # Maakt een verbinding voor HTTPS Socket, prikt zegmaar gat in computer om netwerk shit eruit te laten lopen
         bindsocket = socket.socket()
         bindsocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         bindsocket.bind((self.address, self.port))
-        # gaat luisteren of er ook shit naar binnen komt
+        # Begin listening on socket
         bindsocket.listen(1)
         
 
         while True:
-            # Accepteert TCP connectie en maakt hem veilig met magie fzo
+            # Accepts TCP
             newsocket, fromaddr = bindsocket.accept()
             connstream = context.wrap_socket(newsocket, server_side=True) # Magie
 
@@ -98,18 +96,8 @@ def InitializeRoutes():
 
         if filepath.split(".")[-1] == "css": # CSS support
             NewRoute(route, filepath, "text/css", auth=False)
-
-        if filepath.split(".")[-1] == "gif": # GIF support
-            NewRoute(route, filepath, "image/gif")
-        
-        if filepath.split(".")[-1] == "ico": # ICON support
-            NewRoute(route, filepath, "image/x-icon")
-
-        if filepath.split(".")[-1] == "png": # PNG support
-            NewRoute(route, filepath, "image/png")
         
         if filepath.split(".")[-1] == "js": # JS support
-            print("js")
             NewRoute(route, filepath, "text/javascript", auth=False)
 
         else:
@@ -123,7 +111,6 @@ def InitializeRoutes():
     NewRoute("/inbox", "./pages/inbox/inbox.html", auth=True)
 
 
-# https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security
 class HTTP_Server():
     """The HTTP server class
     """
@@ -133,15 +120,13 @@ class HTTP_Server():
         self.address = address
     
     def start(self):
-        """Starts the HTTP server
+        """Starts the HTTPs server
         """
         print(f"Web server is starting on https://{self.address}:{self.port}\n")
 
-        # Maakt SSL connectie aan
         context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
         context.load_cert_chain(domainCert, privateCert)
 
-        # Maakt een verbinding voor HTTPS Socket, prikt zegmaar gat in computer om netwerk shit eruit te laten lopen
         bindsocket = socket.socket()
         bindsocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 5)
         bindsocket.bind((self.address, self.port))
@@ -150,30 +135,26 @@ class HTTP_Server():
 
         while True:
             try:
-                # Accepteert TCP connectie en maakt hem veilig met magie fzo
+                # Accepts request
                 newsocket, fromaddr = bindsocket.accept()
-                connstream = context.wrap_socket(newsocket, server_side=True) # Magie
+                connstream = context.wrap_socket(newsocket, server_side=True) # Magic
                 request = connstream.recv(1024)
 
-                # Zet gare string om naar cool object met url en shit om beter te kunnen gebruiken
+                # Makes a request object
                 request = Request(request)
-                # print dat er een request wordt gedaan
+
+                # prints request
                 print(f"Accepting request from {fromaddr[0]}: {request.url}")
 
-                # Zoekt de route op die hoort bij /info.html fzo 
+                # Searches Route 
                 route = FindRoute(self.routes, request.url)
 
-                # Maakt er een mooi HTTP objectje van en flikkert die terug naar je browser
+                # Builds HTTP response
                 response =  route.build(request)
-
-                print(route.auth)
 
                 if route.auth and (not request.cookie or not getUser(request.cookie)):
                     response = Redirect("/login/login.html").build()
 
-                print(response)
-
-                
                 connstream.sendall(response.encode())
                 connstream.close()
             except Exception as e:
