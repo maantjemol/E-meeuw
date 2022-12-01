@@ -1,4 +1,4 @@
-![Logo](https://github.com/maantjemol/EoCS-project/blob/master/E-meeuwlogo.png?raw=true)
+![Logo](https://github.com/maantjemol/EoCS-project/blob/master/logo.png?raw=true)
 
 A web email service in python without the use of external libraries.
 
