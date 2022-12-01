@@ -2,6 +2,12 @@ import json
 import uuid
 
 def addUser(email:str, password:str):
+    """Adds a user to the database and generates a unique UserID for them
+
+    Args:
+        email (str): The email of the new user
+        password (str): The password of the new user
+    """
     user = {
         "id": str(uuid.uuid4()),
         "email": email,
@@ -28,7 +34,7 @@ def getUser(id:str):
         {
             "id": "b3d19da8-c681-47da-8736-25cbb97f3512",
             "email": "maan@e-meeuw.de",
-            "password": "lolpower"
+            "password": "asjdkflaslkdf"
         }
     """
     with open("./database/database.json", "r") as f:
@@ -43,6 +49,15 @@ def getUser(id:str):
 
 
 def getSession(email:str, password:str):
+    """Gets the userID from an username and password
+
+    Args:
+        email (str): The username you're trying to find
+        password (str): The password you're trying to find
+
+    Returns:
+        (str / None): Returns the userID or nothing if it isn't found
+    """
     with open("./database/database.json", "r") as f:
         fileCont = f.read()
     database = json.loads(fileCont)
@@ -56,6 +71,15 @@ def getSession(email:str, password:str):
 
 
 def addRecievedEmail(from_email:str, uid:str, to_email:str, subject:str, contents:str):
+    """Adds a recieved email to the database
+
+    Args:
+        from_email (str): The emailaddress the email came from
+        uid (str): The userID of the user
+        to_email (str): The emailaddress the email was for
+        subject (str): The subject of the email
+        contents (str): The contents of the email
+    """
     email = {
         "from_email": from_email,
         "uid": uid,
@@ -76,6 +100,15 @@ def addRecievedEmail(from_email:str, uid:str, to_email:str, subject:str, content
 
 
 def addSendEmail(from_email:str, uid:str, to_email:str, subject:str, contents:str):
+    """Adds a send email to the database
+
+    Args:
+        from_email (str): The emailaddress the email came from
+        uid (str): The userID of the user
+        to_email (str): The emailaddress the email was for
+        subject (str): The subject of the email
+        contents (str): The contents of the email
+    """
     email = {
         "from_email": from_email,
         "uid": uid,
@@ -96,6 +129,14 @@ def addSendEmail(from_email:str, uid:str, to_email:str, subject:str, contents:st
 
 
 def getMail(id:str):
+    """Gets all emails recieved by an user
+
+    Args:
+        id (str): userID
+
+    Returns:
+        list: list of emails
+    """
     all_mails = []
 
     with open("./database/database.json", "r") as f:
@@ -108,7 +149,16 @@ def getMail(id:str):
     
     return all_mails
 
+
 def getSendMail(id:str):
+    """Gets all emails send by an user
+
+    Args:
+        id (str): userID
+
+    Returns:
+        list: list of emails
+    """
     all_mails = []
 
     with open("./database/database.json", "r") as f:
@@ -120,6 +170,3 @@ def getSendMail(id:str):
             all_mails.append(email)
     
     return all_mails
-
-if __name__ == "__main__":
-    addUser("elliot@e-meeuw.de", "pepernoot")

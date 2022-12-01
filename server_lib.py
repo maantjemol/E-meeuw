@@ -8,35 +8,40 @@ from database import *
 routes = []
 
 class Response():
-    # Maakt het makkelijk om een responce te bouwen
+    """Response object
+    """
     def __init__(self, status:int, data:str, contentType:str = "text/html", cookies = []):
         self.status = status
         self.data = data
         self.contentType = contentType
 
-
-    # Bouwt een HTTP message om te versturen, In dit geval in de vorm:
-    # 
-    # HTTP/1.1 200 OK
-    # Server: Your_Mom
-    # Content-type: text/html; charset=UTF-8
-    # "Eventuele data"
-    # 
-
     def build(self):
+        """Builds the HTTP response string
+
+        Returns:
+            string: response string
+        """
         response = f"HTTP/1.1 {self.status} OK\r\nServer: e-meeuw\r\nContent-type: {self.contentType}; charset=UTF-8\n\r\n\r{self.data}\n\r\n\r"
         return response
 
 class Redirect():
-    # Maakt het makkelijk om een responce te bouwen
+    """Redirect object
+    """
     def __init__(self, webpath:str):
         self.webpath = webpath
 
     def build(self):
+        """Builds the HTTP response for a redirect
+
+        Returns:
+            string: response string
+        """
         response = f"HTTP/1.1 301 Moved Permanently\r\nLocation: {self.webpath}\r\nCache-Control: no-store\r\n\r\n"
         return response
 
 class Apiroute():
+    """Apiroute object
+    """
     def __init__(self, webpath:str, responseFunc):
         self.webpath = webpath
         self.responseFunc = responseFunc
@@ -44,6 +49,14 @@ class Apiroute():
 
 
     def build(self, request):
+        """Connects a function to the api route and passes the request to the function that handles the API
+
+        Args:
+            request (Request): the incomming request
+
+        Returns:
+            Response: An Response object
+        """
         data = self.responseFunc(request)
         data = json.dumps(data)
         return Response(200, data, "application/json").build()
@@ -51,6 +64,8 @@ class Apiroute():
 
 
 class Request():
+    """Request object
+    """
     # Maakt een request bruikbaar, inclusief headers
     def __init__(self, request:bytes):
 
@@ -61,7 +76,6 @@ class Request():
         self.body = None
         self.cookie = None
 
-        # print(self.request_string)
         # split header string en stopt het in een dict voor gebruik
         lines = self.request_string.split('\n',1)[1]
 
@@ -84,17 +98,20 @@ class Request():
 
 
         def parse_json(self):
+            """Parses json in an request
+
+            Returns:
+                Object: the parsed JSON object
+            """
             try:
                 return json.loads(self.body)
             except:
                 return {}
-
-
-        print(self.body)
         
 
 class Route():
-    # Maakt een route aan
+    """Route object
+    """
     def __init__(self, webpath:str, localpath:str, contentType:str = "text/html", auth=False):
         self.webpath = webpath
         self.localpath = localpath
@@ -103,6 +120,14 @@ class Route():
     
     # Bouwt een response voor de route, als in een HTTP message
     def build(self, request):
+        """Builds a route by finding the file the route is connected to and passing it through the Response.build() method
+
+        Args:
+            request (request): Not used
+
+        Returns:
+            string: the response string
+        """
         try:
             # Probeert het HTML bestand te zoeken
             file = open(self.localpath).read()
@@ -115,57 +140,29 @@ class Route():
             return response
 
 
-def NewRoute(webpath, localpath, contentType = "text/html", auth = False):
-    # Voegt gewoon een route toe aan een lijst maar dit ziet er clean uit.
-    # Route(webpath, localpath) maakt een route, met een webpath in de vorm
-    # van /test.html(voorbeeld) en een localpath naar het bestand ./pages/test.html(voorbeeld)
+def NewRoute(webpath:str, localpath:str, contentType:str = "text/html", auth:bool = False):
+    """Initializes a new route and adds it to the routes array
 
+    Args:
+        webpath (str): the url used in the browser
+        localpath (str): the path of the file requested
+        contentType (str, optional): the contenttype of the request/file. Defaults to "text/html".
+        auth (bool, optional): Can only view this route when you are logged in. Defaults to False.
+    """
     routes.append(
         Route(webpath, localpath, contentType, auth=auth)
     )
 
 
-# def InitializeRoutes():
-#     # Maakt een lijst aan met alle bestanden in de map pages, dat doet FindFiles()
-#     files:list = FindFiles("pages")
+def FindFiles(folder:str):
+    """Finds all files in an folder
 
-#     # Loopt door alle files heen en maakt een route
-#     for filepath in files:
-#         filepath = filepath.replace("\\", "/")
-#         route = "/" + filepath.split("/", 2)[2]
-#         print(route)
+    Args:
+        folder (str): the folder you want to find the files in
 
-#         if filepath.split(".")[-1] == "css": # CSS support
-#             NewRoute(route, filepath, "text/css")
-
-#         if filepath.split(".")[-1] == "gif": # GIF support
-#             NewRoute(route, filepath, "image/gif")
-        
-#         if filepath.split(".")[-1] == "ico": # ICON support
-#             NewRoute(route, filepath, "image/x-icon")
-
-#         if filepath.split(".")[-1] == "png": # PNG support
-#             NewRoute(route, filepath, "image/png")
-        
-#         if filepath.split(".")[-1] == "js": # JS support
-#             print("js")
-#             NewRoute(route, filepath, "text/javascript")
-
-#         else:
-#             if "inbox" in route:
-#                 NewRoute(route, filepath)
-#             else:
-#                 NewRoute(route, filepath)
-
-    
-#     # Voegt een route toe aan de lijst routes 
-#     NewRoute("/", "./pages/index.html")
-#     NewRoute("/testpagina", "./pages/index.html")
-
-
-def FindFiles(folder):
-    # Maakt een lijst van alle bestanden in een map
-
+    Returns:
+        list: a list with files in the folder
+    """
     files = []
     for f in glob.glob(f'./{folder}/**/*.*', recursive=True):
         files.append(f)

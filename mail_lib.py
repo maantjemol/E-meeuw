@@ -13,6 +13,14 @@ def getSSLSocket():
     return ssl.wrap_socket(socket.socket(socket.AF_INET, socket.SOCK_STREAM), ssl_version=ssl.PROTOCOL_SSLv23)
 
 def getEmailUid(email:str):
+    """Gets the userID by email
+
+    Args:
+        email (str): email string
+
+    Returns:
+        uid: an userID
+    """
     with open("./database/database.json", "r") as f:
         fileCont = f.read()
     database = json.loads(fileCont)
@@ -24,13 +32,25 @@ def getEmailUid(email:str):
     return None
 
 def sendEmail(mail_from:str, mail_to:str, message:str, server_address:str, subject:str, port:int = 26):
+    """Sends an email from our mail server to the recipients mail server.
+
+    Args:
+        mail_from (str): the from email
+        mail_to (str): the recipients email
+        message (str): the contentents of the email
+        server_address (str): the address of the server
+        subject (str): The subject of the email
+        port (int, optional): the port of the server. Defaults to 26.
+
+    Returns:
+        dict: {success: True/False, "error": "error"}
+    """
     try:
         sock = getSSLSocket()
         sock.settimeout(5)
         sock.connect((server_address, port))
         sock.send("HELO".encode())
         response = sock.recv(2048).decode()
-        print(response)
         
         if "OK" in response:
             sock.send(f"MAIL FROM: <{mail_from}>".encode())
@@ -38,7 +58,6 @@ def sendEmail(mail_from:str, mail_to:str, message:str, server_address:str, subje
             print(f"could not connect to server. error: {response}")
             return {"success": False, "error": "could not connect to server"}
         response = sock.recv(2048).decode()
-        print(response)
         
         if "OK" in response:
             sock.send(f"RCPT TO: <{mail_to}>".encode())
@@ -46,7 +65,6 @@ def sendEmail(mail_from:str, mail_to:str, message:str, server_address:str, subje
             print(f"could not connect to server. error: {response}")
             return {"success": False, "error": "could not connect to server"}
         response = sock.recv(2048).decode()
-        print(response)
         
         if "OK" in response:
             sock.send("DATA\r\n".encode())
@@ -80,13 +98,21 @@ def sendEmail(mail_from:str, mail_to:str, message:str, server_address:str, subje
 
 
 def fprint(s:str):
+    """fancy print
+
+    Args:
+        s (str): string you want to fancy print
+    """
     print(f"> {s}")
 
 def acceptEmail(connstream):
+    """function that accepts and handles emails
+
+    Args:
+        connstream (socket): the socket of the incomming email connection
+    """
     try:
         email = ''
-
-        print("got connection!")
 
         request = connstream.recv(1024).decode()
 
@@ -94,7 +120,6 @@ def acceptEmail(connstream):
         rcptEmail = ""
 
         if "HELO" in request:
-            fprint(request)
             connstream.sendall("250 OK".encode())
         else:
             connstream.sendall("450".encode())
@@ -105,8 +130,6 @@ def acceptEmail(connstream):
         if "MAIL FROM" in request:
             regex = r"(?<=<).*?(?=>)" # Everything between < >
             fromEmail = re.findall(regex, request)[0]
-            fprint(request)
-            print(fromEmail)
             connstream.sendall("250 OK".encode())
         else:
             connstream.sendall("450".encode())
@@ -123,9 +146,6 @@ def acceptEmail(connstream):
                 print(rcptEmail, "doesn't exists in database")
                 connstream.close()
                 return
-
-            fprint(request)
-            print(rcptEmail)
             connstream.sendall("250 OK".encode())
         else:
             connstream.sendall("450".encode())
@@ -134,7 +154,6 @@ def acceptEmail(connstream):
         
         request = connstream.recv(1024).decode()
         if "DATA" in request:
-            fprint(request)
             connstream.sendall("354 End data with <CR><LF>.<CR><LF>".encode())
         else:
             connstream.sendall("450".encode())
