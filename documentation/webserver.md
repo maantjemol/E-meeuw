@@ -1,7 +1,3 @@
-# Structure of the code
-@Of hoort dit bij de README. 
-The main file is mailserver.py. For clarity, we put some methods in a different file. We import mail_lib.py, server_lib.py and database.py.
-
 # Webserver
 The HTTPs server will establish a secure TCP connection from the webserver to the browser. The webserver consists of the class `HTTP_Server()` from the file `mailserver.py` and other classes and methods from the file `server_lib.py` 
 
