@@ -1,4 +1,4 @@
-# EoCS project
+# E-meeuw.de
 
 A web email service in python without the use of external libraries.
 
@@ -14,10 +14,10 @@ Install the included ssl certificates `rootCA.pem` in the `cert` folder to your 
 
 ## Usage/Examples
 
-Start the server on [https://localhost:1111](https://localhost:1111) with:
+Start the server on [https://localhost:1115](https://localhost:1115) with:
 
 ```bash
-python3 server.py
+python3 mailserver.py
 ```
 
 Pages can be added in the `pages` folder as .html files. The server also supports Javascript and CSS.
