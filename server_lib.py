@@ -76,7 +76,6 @@ class Request():
         self.body = None
         self.cookie = None
 
-        # print(self.request_string)
         # split header string en stopt het in een dict voor gebruik
         lines = self.request_string.split('\n',1)[1]
 

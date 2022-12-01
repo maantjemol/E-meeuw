@@ -51,7 +51,6 @@ def sendEmail(mail_from:str, mail_to:str, message:str, server_address:str, subje
         sock.connect((server_address, port))
         sock.send("HELO".encode())
         response = sock.recv(2048).decode()
-        print(response)
         
         if "OK" in response:
             sock.send(f"MAIL FROM: <{mail_from}>".encode())
@@ -59,7 +58,6 @@ def sendEmail(mail_from:str, mail_to:str, message:str, server_address:str, subje
             print(f"could not connect to server. error: {response}")
             return {"success": False, "error": "could not connect to server"}
         response = sock.recv(2048).decode()
-        print(response)
         
         if "OK" in response:
             sock.send(f"RCPT TO: <{mail_to}>".encode())
@@ -67,7 +65,6 @@ def sendEmail(mail_from:str, mail_to:str, message:str, server_address:str, subje
             print(f"could not connect to server. error: {response}")
             return {"success": False, "error": "could not connect to server"}
         response = sock.recv(2048).decode()
-        print(response)
         
         if "OK" in response:
             sock.send("DATA\r\n".encode())
@@ -117,15 +114,12 @@ def acceptEmail(connstream):
     try:
         email = ''
 
-        print("got connection!")
-
         request = connstream.recv(1024).decode()
 
         fromEmail = ""
         rcptEmail = ""
 
         if "HELO" in request:
-            fprint(request)
             connstream.sendall("250 OK".encode())
         else:
             connstream.sendall("450".encode())
@@ -136,8 +130,6 @@ def acceptEmail(connstream):
         if "MAIL FROM" in request:
             regex = r"(?<=<).*?(?=>)" # Everything between < >
             fromEmail = re.findall(regex, request)[0]
-            fprint(request)
-            print(fromEmail)
             connstream.sendall("250 OK".encode())
         else:
             connstream.sendall("450".encode())
@@ -154,9 +146,6 @@ def acceptEmail(connstream):
                 print(rcptEmail, "doesn't exists in database")
                 connstream.close()
                 return
-
-            fprint(request)
-            print(rcptEmail)
             connstream.sendall("250 OK".encode())
         else:
             connstream.sendall("450".encode())
@@ -165,7 +154,6 @@ def acceptEmail(connstream):
         
         request = connstream.recv(1024).decode()
         if "DATA" in request:
-            fprint(request)
             connstream.sendall("354 End data with <CR><LF>.<CR><LF>".encode())
         else:
             connstream.sendall("450".encode())
