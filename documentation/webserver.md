@@ -80,7 +80,7 @@ A method that returns a JSON document in the format of a Python object. We utili
 ## class Route()
 A class to build the route. 
 We pass the arguments `webpath`, `localpath`, `contentType` and `auth`, where `ContentType` defaults to "text/html" and `auth` defaults to False.
-`Webpath` refers to XXX and `localpath` refers to XXX. 
+`Webpath` refers to the url and `localpath` refers to (opslaglocatie) the path to the file locally. 
 
 ### method Build()
 The class contains the method `build()`.
@@ -103,21 +103,45 @@ This method will compare the route and url to see if they match. When the route'
 
 
 
-
-## class HTTP_Server @mailserver.py
-This class .... We pass the arguments `self`, `address`, `port`, and `routes`.
+# @mailserver.py
+## class HTTP_Server 
+This class combines the classes and methods from `server_lib.py` to a working HTTP server. We pass the arguments `self`, `address`, `port`, and `routes`.
+- `address`
+- `port`
+- `routes`
 Furtermore, the class contains the method `start()`
 
 ### method Start()
-The method will print a string stating the address and port where the server will be starting. 
-Next, the SSL connection is initiated. We create a `SSLContext` object. 
-We create an object `socket` using the `socket` module. We set parameters (?) for the socket and assign an IP address and portnumber to the socket. `bindsocket.listen(1)` means the server is now listening for connection requests to its assigned port. `1` is the backlog argument of the method, this argument specifies the maximum number of queued connections. [Why we chose 1]. 
-We stay in a while loop as long as ... (always?)
-The while loop handles incoming TCP requests (?).
+First, the method will print a string stating the address and port where the server will be starting. 
+
+Next, the SSL connection is initiated. To do so, we create `context`, a `SSLContext` object with secure default settings for the given purpose. Here, `Purpose.CLIENT_AUTH` loads CA certificates for client certificate verification on the server side. 
+The method `load_cert_chain()` loads an X.509 certificate and its private key into the SSLContext object. With `domainCert` and `privateCert`, we either refer to the certificates linked to our domain, e-meeuw, or certificates we created ourselves. Which one we use depends on weather we go live trough docker or not. The loaded certificate will be used during the SSL Handshake with the peer.
+
+`Bindsocket` is an object `socket` using the `socket` module. We set the options related to a socket and assign an IP address and portnumber to the socket. 
+`bindsocket.listen(1)` means the server is now listening for connection requests to its assigned port. `1` is the backlog argument of the method, this argument specifies the maximum number of queued connections. [Why we chose 1]. 
+
+We enter the while loop where we handle the connections, we stay in this loop for as long as we run this programm
+
 When a connection comes in, we return a new socket representing the connection and the address of the client. 
 
+When a connection request comes in from a client, we accept the connection using the method `accept()`. The method returns a tuple of a new instance of SSLSocket and the IP address of the client, we store them in the variables `newsocket` and `fromaddr`. 
+Next, we add the SSL layer to our server socket `newsocket` with `context.wrap_socket()`, the secured socket is called `connstream`.
+We store the data received by `connstream` in `request`, a bytes object. The maximum amount of data to be received is at once is set to `1024`. 
 
+We format the request we got from the server socket with `Request()`, this returns the headers of the request as a string. We also print the IP address of the client and url of the request. 
 
-152 Redirecten als: User bestaat niet, er zijn geen cookies. 
-## method InitializeRoutes() @Different file
-This method will go through all the files in the folder `pages` and initialize the method `NewRoute()` to map the routes to all pages. All routes are then added to the list `routes`.
+We search for the `route` matching the url from the request with `FindRoute()`
+We format a HTTP response for the request using `route.build()`.
+
+We print the route authentication. 
+
+If the `route.auth` equals true but we cannot find cookies or a user, we set the HTTP response to our login page. 
+
+We print the `response`. 
+
+We convert `response` to bytes and send this information from the socket `connstream` to the connected remote socket. Finally, we close the `connstream` socket. 
+
+## __main__
+We start the servers.
+
+Threading?
