@@ -4,9 +4,11 @@ let recp_email_text = document.getElementById("recipient");
 let content_text = document.getElementById("content");
 let success_text = document.getElementById("success");
 let error_text = document.getElementById("error");
+let butt = document.getElementById("submit_button");
 
 form.addEventListener("submit", async function (e) {
   await submitForm(e);
+  butt.disabled = true;
 
   let headersList = {
     Accept: "*/*",
@@ -29,9 +31,11 @@ form.addEventListener("submit", async function (e) {
 
   let data = await response.json();
   if (data.success) {
+    butt.disabled = false;
     success_text.style.display = "block";
     error_text.style.display = "none";
   } else {
+    butt.disabled = false;
     success_text.style.display = "none";
     error_text.style.display = "block";
   }

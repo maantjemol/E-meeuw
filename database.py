@@ -122,4 +122,4 @@ def getSendMail(id:str):
     return all_mails
 
 if __name__ == "__main__":
-    print(getSendMail("b3d19da8-c681-47da-8736-25cbb97f3512"))
+    addUser("elliot@e-meeuw.de", "pepernoot")
