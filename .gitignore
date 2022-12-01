@@ -4,4 +4,4 @@
 .DS_Store
 __pycache__
 pbuncerts
-.vscode/settings.json
+.vscode
