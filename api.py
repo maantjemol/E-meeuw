@@ -3,6 +3,14 @@ from database import *
 from mail_lib import * 
 
 def handleLogin(request):
+    """Handles the login API route
+
+    Args:
+        request (`Request`): the incoming request
+
+    Returns:
+        dict: `{"success": bool, cookie: str, "Error": str / None}`
+    """
     request_data = json.loads(request.body)
     
     session = getSession(email=request_data["username"], password=request_data["password"])
@@ -21,6 +29,14 @@ def handleLogin(request):
     return resp
 
 def handleSendMail(request):
+    """Handles the login API route
+
+    Args:
+        request (`Request`): the incoming request
+
+    Returns:
+        dict: `{"success": bool}`
+    """
     request_data = json.loads(request.body)
     user_data = getUser(request_data["uid"])
 
@@ -68,6 +84,14 @@ def handleSendMail(request):
     return resp
 
 def handleGetMail(request):
+    """Handles the login API route
+
+    Args:
+        request (`Request`): the incoming request
+
+    Returns:
+        dict: `{"success": bool, "emails": list}`
+    """
     request_data = json.loads(request.body)
 
     if not request_data["uid"]:
@@ -83,6 +107,14 @@ def handleGetMail(request):
     return resp
 
 def handleGetSendMail(request):
+    """Handles the login API route
+
+    Args:
+        request (`Request`): the incoming request
+
+    Returns:
+        dict: `{"success": bool, "emails": list}`
+    """
     request_data = json.loads(request.body)
 
     if not request_data["uid"]:

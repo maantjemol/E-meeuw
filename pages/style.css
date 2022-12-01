@@ -12,6 +12,7 @@ body {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  transition: 200ms;
 }
 
 h1 {
@@ -34,4 +35,42 @@ button {
 
 #addText {
   font-size: 5em;
+}
+
+img {
+  width: 40vw;
+}
+
+a {
+  /* background-color: rgb(32, 114, 255); */
+  border-radius: 5px;
+  padding: 12px 24px;
+  color: rgb(0, 0, 0);
+  transition: 200ms;
+  border: 3px solid black;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+a:hover {
+  cursor: pointer;
+  scale: 1.1;
+  color: white;
+  background-color: black;
+  border-color: white;
+}
+
+a:hover ~ .background {
+  background-color: black;
+}
+
+.background {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  background-color: white;
+  transition: 200ms;
 }

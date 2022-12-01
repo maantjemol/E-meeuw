@@ -24,37 +24,18 @@
       "id": "ef35c240-739c-42f2-8a5a-313b1835e17e",
       "email": "elliot@e-meeuw.de",
       "password": "pepernoot"
+    },
+    {
+      "id": "86eb4200-2d99-4b80-ac9b-8b10ec79e51d",
+      "email": "ta1@e-meeuw.de",
+      "password": "pepernoot1"
+    },
+    {
+      "id": "d7d2b398-34fc-4528-9086-6c234e026ba9",
+      "email": "ta2@e-meeuw.de",
+      "password": "pepernoot2"
     }
   ],
-  "send_emails": [
-    {
-      "from_email": "maan@e-meeuw.de",
-      "uid": "b3d19da8-c681-47da-8736-25cbb97f3512",
-      "to_email": "maan@e-meeuw.de",
-      "subject": "test",
-      "contents": "asdf\nsdaf\nasd\nfas\nd\n\n\nasdfasdf\nsa\nfd\nas\ndf\nasdfadfa"
-    },
-    {
-      "from_email": "maan@e-meeuw.de",
-      "uid": "b3d19da8-c681-47da-8736-25cbb97f3512",
-      "to_email": "maan@e-meeuw.de",
-      "subject": "test",
-      "contents": "asdf\nsdaf\nasd\nfas"
-    },
-    {
-      "from_email": "maan@e-meeuw.de",
-      "uid": "b3d19da8-c681-47da-8736-25cbb97f3512",
-      "to_email": "maan@e-meeuw.de",
-      "subject": "test",
-      "contents": "asdf\nsdaf\nasd\nfas"
-    },
-    {
-      "from_email": "maan@e-meeuw.de",
-      "uid": "b3d19da8-c681-47da-8736-25cbb97f3512",
-      "to_email": "maan@e-meeuw.de",
-      "subject": "test",
-      "contents": "asdf\nsdaf\nasd\nfas"
-    }
-  ],
+  "send_emails": [],
   "recieved_emails": []
 }

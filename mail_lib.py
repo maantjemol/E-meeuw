@@ -13,6 +13,14 @@ def getSSLSocket():
     return ssl.wrap_socket(socket.socket(socket.AF_INET, socket.SOCK_STREAM), ssl_version=ssl.PROTOCOL_SSLv23)
 
 def getEmailUid(email:str):
+    """Gets the userID by email
+
+    Args:
+        email (str): email string
+
+    Returns:
+        uid: an userID
+    """
     with open("./database/database.json", "r") as f:
         fileCont = f.read()
     database = json.loads(fileCont)
@@ -24,6 +32,19 @@ def getEmailUid(email:str):
     return None
 
 def sendEmail(mail_from:str, mail_to:str, message:str, server_address:str, subject:str, port:int = 26):
+    """Sends an email from our mail server to the recipients mail server.
+
+    Args:
+        mail_from (str): the from email
+        mail_to (str): the recipients email
+        message (str): the contentents of the email
+        server_address (str): the address of the server
+        subject (str): The subject of the email
+        port (int, optional): the port of the server. Defaults to 26.
+
+    Returns:
+        dict: {success: True/False, "error": "error"}
+    """
     try:
         sock = getSSLSocket()
         sock.settimeout(5)
@@ -80,9 +101,19 @@ def sendEmail(mail_from:str, mail_to:str, message:str, server_address:str, subje
 
 
 def fprint(s:str):
+    """fancy print
+
+    Args:
+        s (str): string you want to fancy print
+    """
     print(f"> {s}")
 
 def acceptEmail(connstream):
+    """function that accepts and handles emails
+
+    Args:
+        connstream (socket): the socket of the incomming email connection
+    """
     try:
         email = ''
 

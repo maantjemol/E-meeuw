@@ -13,11 +13,15 @@ docker = False
 
 
 class Email_Server():
+    """The Email server
+    """
     def __init__(self, address:str, port:int):
         self.port = port
         self.address = address
     
     def start(self):
+        """Starts the email server
+        """
         print(f"Server is starting on {self.address}:{self.port}\n")
 
         # Maakt SSL connectie aan
@@ -43,7 +47,8 @@ class Email_Server():
 
 
 def ApiRoutes():
-
+    """Appends API routes to the routes array
+    """
     routes.append(Apiroute(
         webpath="/api/sendmail",
         responseFunc=handleSendMail
@@ -64,12 +69,23 @@ def ApiRoutes():
         responseFunc=handleLogin
     ))
 
-def NewRoute(webpath, localpath, contentType = "text/html", auth=False):
+def NewRoute(webpath:str, localpath:str, contentType:str = "text/html", auth:bool = False):
+    """Initializes a new route and adds it to the routes array
+
+    Args:
+        webpath (str): the url used in the browser
+        localpath (str): the path of the file requested
+        contentType (str, optional): the contenttype of the request/file. Defaults to "text/html".
+        auth (bool, optional): Can only view this route when you are logged in. Defaults to False.
+    """
     routes.append(
         Route(webpath, localpath, contentType, auth=auth)
     )
 
+
 def InitializeRoutes():
+    """Initializes routes by looping thru files and adding them to the routes
+    """
     files:list = FindFiles("pages")
     for filepath in files:
         filepath = filepath.replace("\\", "/")
@@ -109,12 +125,16 @@ def InitializeRoutes():
 
 # https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security
 class HTTP_Server():
+    """The HTTP server class
+    """
     def __init__(self, address:str, port:int, routes:list):
         self.port = port
         self.routes = routes
         self.address = address
     
     def start(self):
+        """Starts the HTTP server
+        """
         print(f"Web server is starting on https://{self.address}:{self.port}\n")
 
         # Maakt SSL connectie aan
