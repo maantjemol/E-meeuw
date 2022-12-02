@@ -14,12 +14,11 @@ Content-type: text/html; charset=UTF-8
 ```
 
 ### method Build()
-The class contains the method `build()` to compose the HTTP message.
-The message is created using a f-string, by parsing the `status`, `contentType` and `data` variables to a string containing a template for the message. 
+The class contains the method `build()` to compose the HTTP message.The message is created using a f-string, by parsing the `status`, `contentType` and `data` variables to a string containing a template for the message. We return the string.
 
 
 ## class Redirect()
-In case we cannot reach a page, we can redirect the user to another one. This is the purpose of this class. `Redirect()` returns a HTTP message similar to the one `response()` produces.
+In case we cannot reach a page, we want to redirect the user to another one. `Redirect()` returns a HTTP message similar to the one `response()` produces, but this message points to a page of our chosing. We use `Redirect()` to bring the user to the login page when necessary. 
 
 An example of the HTTP message `redirect()` returns: 
 ```http
@@ -32,10 +31,10 @@ Cache-Control: no-store
 `build()` returns a HTTP message. The message is created by parsing the `webpath` variable in a string containing a template for this message. In the template, the statuscode is already set to 301 and the cache-control is turned off, meaning browsers are not allowed to cache a response and must pull it from the server each time it's requested. This is necessary to keep the browser from passing over the original location indefinitely. 
 
 ## class Apiroute()
-A class to format a HTTP response to ... based on information from the api?
+A class to format a HTTP response so it is able to connect to the api route.
 
 ### method Build()
-The cookie and succes variable obtained when executing responseFunc are formatted to a JSON string by `json.dumps`.
+The `cookie` and `succes` variables obtained when executing responseFunc are formatted to a JSON string by `json.dumps`.
 `build()` returns a HTTP message with `statuscode` 200, the JSON string and `contentType` "application/json". 
 
 ## class Request()
@@ -70,41 +69,38 @@ Will result in the `method` GET, the `url` /search.html, the `cookie` 51ed9756-1
 Finally, for the `cookie` variable, we remove the 'id=' to suit our future format purposes. 
 
 ### method Parse_json()
-A method that returns a JSON document in the format of a Python object. We utilize the method `json.loads()` to chance the format of the input. 
+A method that returns a JSON object decoded to be in the format of a Python object. We call the method `json.loads()` to change the format of the input. 
 
 
 ## class Route()
 A class to build the route. 
 We pass the arguments `webpath`, `localpath`, `contentType` and `auth`, where `ContentType` defaults to "text/html" and `auth` defaults to False.
-`Webpath` refers to the url and `localpath` refers to (opslaglocatie) the path to the file locally. 
+`Webpath` refers to the url and `localpath` refers to the path to the file locally. 
 
 ### method Build()
-The class contains the method `build()`.
+The class contains the method `build()`. `build()` will search the file the route is connected to. When we access the file, `build()` will build a HTTP response by calling the `Response.build()` method with status 200, the file and contentType. In case the HTML file is not found, the method will return a response with status 404 and the message 'Not found'.
 
 
-`build()` will search the folder `pages` for the HTML file specified in the `localpath` variable. When we access the file, `build()` will build a HTTP response using the `Response.build()` method with status 200, the file and contentType. In case the HTML file is not found, the method will return a response with status 404 and the message 'Not found'.
-
-
-## method NewRoute()
-This method will append a new route to the list of routes created at the top of the file `server_lib.py`. 
+## function NewRoute()
+This function will append a new route to the list of routes created at the top of the file `server_lib.py`. 
 The route is created inside the method, using the parameters `webpath`, `localpath`, `contentType` and `auth`, and then added to the list `routes`. 
 
 
-## method FindFiles()
-This method will return a list of all the files in the folder specified as the argument of this function. In order to do this, we initialize the `glob()` method to retrieve the pathnames and add them to the list `files`. We then return the list `files`.
+## function FindFiles()
+This function will return a list of all the files in the folder specified as the argument of this function. In order to do this, we initialize the `glob()` method to retrieve the pathnames and add them to the list `files`. We then return the list `files`.
 
 
-## method FindRoutes()
-This method will compare the route and url to see if they match. When the route's `webpath` equals the `url` provided as argument, the method will return the route. In case the two do not match, we return the route to our errorpage.  
+## function FindRoutes()
+This function will compare the route and url to see if they match. When the route's `webpath` equals the `url` provided as argument, the method will return the route. In case the two do not match, we return the route to our errorpage.  
 
 
 
 # @mailserver.py
 ## class HTTP_Server 
 This class combines the classes and methods from `server_lib.py` to a working HTTP server. We pass the arguments `self`, `address`, `port`, and `routes`.
-- `address`
-- `port`
-- `routes`
+- `address` refers to the domain name of the server
+- `port` refers to the number of the port we want to use for the server
+- `routes` refers to the list of all our webpages
 Furtermore, the class contains the method `start()`
 
 ### method Start()
@@ -113,12 +109,10 @@ First, the method will print a string stating the address and port where the ser
 Next, the SSL connection is initiated. To do so, we create `context`, a `SSLContext` object with secure default settings for the given purpose. Here, `Purpose.CLIENT_AUTH` loads CA certificates for client certificate verification on the server side. 
 The method `load_cert_chain()` loads an X.509 certificate and its private key into the SSLContext object. With `domainCert` and `privateCert`, we either refer to the certificates linked to our domain, e-meeuw, or certificates we created ourselves. Which one we use depends on weather we go live trough docker or not. The loaded certificate will be used during the SSL Handshake with the peer.
 
-`Bindsocket` is an object `socket` using the `socket` module. We set the options related to a socket and assign an IP address and portnumber to the socket. 
+`Bindsocket` is an object `socket` using the `socket` module. We set the options related to a socket and assign an address and portnumber to the socket. 
 `bindsocket.listen(1)` means the server is now listening for connection requests to its assigned port. `1` is the backlog argument of the method, this argument specifies the maximum number of queued connections. [Why we chose 1]. 
 
-We enter the while loop where we handle the connections, we stay in this loop for as long as we run this programm
-
-When a connection comes in, we return a new socket representing the connection and the address of the client. 
+We enter the while loop where we handle the connections, we stay in this loop for as long as we run this program. 
 
 When a connection request comes in from a client, we accept the connection using the method `accept()`. The method returns a tuple of a new instance of SSLSocket and the IP address of the client, we store them in the variables `newsocket` and `fromaddr`. 
 Next, we add the SSL layer to our server socket `newsocket` with `context.wrap_socket()`, the secured socket is called `connstream`.
@@ -129,11 +123,7 @@ We format the request we got from the server socket with `Request()`, this retur
 We search for the `route` matching the url from the request with `FindRoute()`
 We format a HTTP response for the request using `route.build()`.
 
-We print the route authentication. 
-
-If the `route.auth` equals true but we cannot find cookies or a user, we set the HTTP response to our login page. 
-
-We print the `response`. 
+If the `route.auth` equals true but we cannot find cookies or a user, we set the HTTP response to redirect to our login page. 
 
 We convert `response` to bytes and send this information from the socket `connstream` to the connected remote socket. Finally, we close the `connstream` socket. 
 
