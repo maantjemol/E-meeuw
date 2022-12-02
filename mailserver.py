@@ -158,9 +158,9 @@ class HTTP_Server():
                 connstream.sendall(response.encode())
                 connstream.close()
             except Exception as e:
-                print(e)
+                print("Error in HTTP server:", e)
 
-docker = False
+docker = True
 privateCert = './cert/server.key'
 domainCert = './cert/server.crt'
 

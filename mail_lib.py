@@ -93,7 +93,8 @@ def sendEmail(mail_from:str, mail_to:str, message:str, server_address:str, subje
         
         response = sock.recv(2048).decode()
         return {"success": True}  
-    except Exception:
+    except Exception as e:
+        print("Error in Email server (send):", e)
         return {"success": False, "error": "An error occurred"}
 
 
@@ -192,5 +193,5 @@ def acceptEmail(connstream):
             uid=uid,
         )
     
-    except Exception:
-        pass
+    except Exception as e:
+                print("Error in Email server (recieve):", e)
