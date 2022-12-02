@@ -1,1 +1,46 @@
-{"users": [{"id": "b3d19da8-c681-47da-8736-25cbb97f3512", "email": "maan@e-meeuw.de", "password": "lolpower"}, {"id": "51ed9756-11f4-46e7-8596-f1627a89b8ea", "email": "aran@e-meeuw.de", "password": "uwu"}, {"id": "64f6f2bd-ad32-41e0-a3cd-ef541f831afe", "email": "emma@e-meeuw.de", "password": "vissertje1"}, {"id": "9c5163be-0632-4b2c-9272-69671f02bf92", "email": "romy@e-meeuw.de", "password": "hoiikbenromy"}, {"id": "ef35c240-739c-42f2-8a5a-313b1835e17e", "email": "elliot@e-meeuw.de", "password": "pepernoot"}, {"id": "86eb4200-2d99-4b80-ac9b-8b10ec79e51d", "email": "ta1@e-meeuw.de", "password": "pepernoot1"}, {"id": "d7d2b398-34fc-4528-9086-6c234e026ba9", "email": "ta2@e-meeuw.de", "password": "pepernoot2"}], "send_emails": [{"from_email": "maan@e-meeuw.de", "uid": "b3d19da8-c681-47da-8736-25cbb97f3512", "to_email": "maan@e-meeuw.de", "subject": "test", "contents": "sdfasfasf"}, {"from_email": "maan@e-meeuw.de", "uid": "b3d19da8-c681-47da-8736-25cbb97f3512", "to_email": "maan@e-meeuw.de", "subject": "dfasdf", "contents": "sdfasdf"}, {"from_email": "maan@e-meeuw.de", "uid": "b3d19da8-c681-47da-8736-25cbb97f3512", "to_email": "maan@e-meeuw.de", "subject": "dfasdf", "contents": "sdfasdf"}, {"from_email": "maan@e-meeuw.de", "uid": "b3d19da8-c681-47da-8736-25cbb97f3512", "to_email": "maan@e-meeuw.de", "subject": "dfasdf", "contents": "sdfasdf"}, {"from_email": "maan@e-meeuw.de", "uid": "b3d19da8-c681-47da-8736-25cbb97f3512", "to_email": "maan@e-meeuw.de", "subject": "dfasdf", "contents": "sdfasdf"}, {"from_email": "maan@e-meeuw.de", "uid": "b3d19da8-c681-47da-8736-25cbb97f3512", "to_email": "maan@e-meeuw.de", "subject": "dfasdf", "contents": "sdfasdf"}, {"from_email": "maan@e-meeuw.de", "uid": "b3d19da8-c681-47da-8736-25cbb97f3512", "to_email": "maan@e-meeuw.de", "subject": "dfasdf", "contents": "sdfasdf"}, {"from_email": "maan@e-meeuw.de", "uid": "b3d19da8-c681-47da-8736-25cbb97f3512", "to_email": "maan@e-meeuw.de", "subject": "dfasdf", "contents": "sdfasdf"}, {"from_email": "maan@e-meeuw.de", "uid": "b3d19da8-c681-47da-8736-25cbb97f3512", "to_email": "maan@e-meeuw.de", "subject": "dfasdf", "contents": "sdfasdf"}, {"from_email": "maan@e-meeuw.de", "uid": "b3d19da8-c681-47da-8736-25cbb97f3512", "to_email": "maan@e-meeuw.de", "subject": "dfasdf", "contents": "sdfasdf"}, {"from_email": "maan@e-meeuw.de", "uid": "b3d19da8-c681-47da-8736-25cbb97f3512", "to_email": "maan@e-meeuw.de", "subject": "dfasdf", "contents": "sdfasdf"}, {"from_email": "maan@e-meeuw.de", "uid": "b3d19da8-c681-47da-8736-25cbb97f3512", "to_email": "maan@e-meeuw.de", "subject": "dfasdf", "contents": "sdfasdf"}, {"from_email": "maan@e-meeuw.de", "uid": "b3d19da8-c681-47da-8736-25cbb97f3512", "to_email": "maan@e-meeuw.de", "subject": "dfasdf", "contents": "sdfasdf"}], "recieved_emails": [{"from_email": "maan@e-meeuw.de", "uid": "b3d19da8-c681-47da-8736-25cbb97f3512", "to_email": "maan@e-meeuw.de", "subject": "dfasdf", "contents": "sdfasdf"}]}
+{
+  "users": [
+    {
+      "id": "b3d19da8-c681-47da-8736-25cbb97f3512",
+      "email": "maan@e-meeuw.de",
+      "password": "lolpower"
+    },
+    {
+      "id": "51ed9756-11f4-46e7-8596-f1627a89b8ea",
+      "email": "aran@e-meeuw.de",
+      "password": "uwu"
+    },
+    {
+      "id": "64f6f2bd-ad32-41e0-a3cd-ef541f831afe",
+      "email": "emma@e-meeuw.de",
+      "password": "vissertje1"
+    },
+    {
+      "id": "9c5163be-0632-4b2c-9272-69671f02bf92",
+      "email": "romy@e-meeuw.de",
+      "password": "hoiikbenromy"
+    },
+    {
+      "id": "ef35c240-739c-42f2-8a5a-313b1835e17e",
+      "email": "elliot@e-meeuw.de",
+      "password": "pepernoot"
+    },
+    {
+      "id": "86eb4200-2d99-4b80-ac9b-8b10ec79e51d",
+      "email": "ta1@e-meeuw.de",
+      "password": "pepernoot1"
+    },
+    {
+      "id": "d7d2b398-34fc-4528-9086-6c234e026ba9",
+      "email": "ta2@e-meeuw.de",
+      "password": "pepernoot2"
+    },
+    {
+      "id": "fea85b9f-856e-4744-b5e6-3b7d25323de5",
+      "email": "sanne@e-meeuw.de",
+      "password": "pepernoot45"
+    }
+  ],
+  "send_emails": [],
+  "recieved_emails": []
+}
