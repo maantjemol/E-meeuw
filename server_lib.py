@@ -1,10 +1,10 @@
-# importeert een hoop shit
+# import necessary modules
 import socket, ssl, glob
 import json
 from database import *
 #import os 
 
-# Maakt alvast routes list aan voor later (scroll naar beneden voor spoilers)
+# Create an empty list for the routes to our webpages
 routes = []
 
 class Response():
@@ -66,7 +66,7 @@ class Apiroute():
 class Request():
     """Request object
     """
-    # Maakt een request bruikbaar, inclusief headers
+    # Formats a connection request to a string containing the headers
     def __init__(self, request:bytes):
 
         self.headers = {}
@@ -76,7 +76,7 @@ class Request():
         self.body = None
         self.cookie = None
 
-        # split header string en stopt het in een dict voor gebruik
+        # Split the header string and put it in a dictionary object
         lines = self.request_string.split('\n',1)[1]
 
         lines = lines.split("\r\n\r\n")
@@ -98,11 +98,12 @@ class Request():
 
 
         def parse_json(self):
-            """Parses json in an request
+            """Parses json in a request
 
             Returns:
                 Object: the parsed JSON object
             """
+            # Decode a JSON object to a Python object
             try:
                 return json.loads(self.body)
             except:
@@ -118,7 +119,7 @@ class Route():
         self.contentType = contentType
         self.auth = auth
     
-    # Bouwt een response voor de route, als in een HTTP message
+    # Build a HTTP response for the route
     def build(self, request):
         """Builds a route by finding the file the route is connected to and passing it through the Response.build() method
 
@@ -129,13 +130,13 @@ class Route():
             string: the response string
         """
         try:
-            # Probeert het HTML bestand te zoeken
+            # Try to find the HTML file
             file = open(self.localpath).read()
             response = Response(200, file, self.contentType).build()
             return response
         except Exception as e:
             print(f"Error: {e}")
-            # Als het HTML bestand niet gevonden kan worden stuurt ie een 404 not found
+            # In case we cannot find the HTML file, we send a 404 error
             response = Response(404, "Not found").build()
             return response
 
@@ -170,10 +171,11 @@ def FindFiles(folder:str):
 
 
 def FindRoute(routes, url):
-    # Zoekt in de routes en kijkt of er een route is die overeen komt met de url
+    # Search the list routes for a route that matches the url of the connection request
 
     for route in routes:
         if route.webpath == url:
             return route
+    # If there is no match, we return the route to our error page        
     return Route("/", "./pages/404.html")
 

@@ -1,6 +1,9 @@
 # Webserver
-The HTTPs server will establish a secure TCP connection from the webserver to the browser. The webserver consists of the class `HTTP_Server()` from the file `mailserver.py` and other classes and methods from the file `server_lib.py` 
+The HTTPs server will establish a secure TCP connection from the webserver to the browser. The webserver consists of the class `HTTP_Server()` from the file `mailserver.py` and other classes and methods from the file `server_lib.py`.
 
+#
+
+# Contents of `server_lib.py`
 ## class Response()
 A Class to build a HTTP response message. 
 We pass the arguments `status`, `data`, `contentType` and `cookies`.  Here, `data` refers to our webpages. Furthermore, `contentType` defaults to `"text/html"` and  `cookies` is set to an empty list.
@@ -73,8 +76,7 @@ A method that returns a JSON object decoded to be in the format of a Python obje
 
 
 ## class Route()
-A class to build the route. 
-We pass the arguments `webpath`, `localpath`, `contentType` and `auth`, where `ContentType` defaults to "text/html" and `auth` defaults to False.
+A class to build a HTTP response for the route. We pass the arguments `webpath`, `localpath`, `contentType` and `auth`, where `ContentType` defaults to "text/html" and `auth` defaults to False.
 `Webpath` refers to the url and `localpath` refers to the path to the file locally. 
 
 ### method Build()
@@ -83,7 +85,13 @@ The class contains the method `build()`. `build()` will search the file the rout
 
 ## function NewRoute()
 This function will append a new route to the list of routes created at the top of the file `server_lib.py`. 
-The route is created inside the method, using the parameters `webpath`, `localpath`, `contentType` and `auth`, and then added to the list `routes`. 
+We pass the arguments
+- `webpath`, the url used in the browser
+- `localpath`, the path of the file requested
+- `contentType`, the contenttype of the request/file. This argument defaults to `"text/html"`.
+- `auth`, defaults to `False`. This route is only visible when the user is logged in, `auth` then evaluates to `True`. 
+
+We call the class `Route()` and append the object to our list `routes`. 
 
 
 ## function FindFiles()
@@ -94,8 +102,9 @@ This function will return a list of all the files in the folder specified as the
 This function will compare the route and url to see if they match. When the route's `webpath` equals the `url` provided as argument, the method will return the route. In case the two do not match, we return the route to our errorpage.  
 
 
+#
+# Contents of `mailserver.py`
 
-# @mailserver.py
 ## class HTTP_Server 
 This class combines the classes and methods from `server_lib.py` to a working HTTP server. We pass the arguments `self`, `address`, `port`, and `routes`.
 - `address` refers to the domain name of the server
@@ -112,6 +121,7 @@ The method `load_cert_chain()` loads an X.509 certificate and its private key in
 `Bindsocket` is an object `socket` using the `socket` module. We set the options related to a socket and assign an address and portnumber to the socket. 
 `bindsocket.listen(1)` means the server is now listening for connection requests to its assigned port. `1` is the backlog argument of the method, this argument specifies the maximum number of queued connections. [Why we chose 1]. 
 
+### While loop
 We enter the while loop where we handle the connections, we stay in this loop for as long as we run this program. 
 
 When a connection request comes in from a client, we accept the connection using the method `accept()`. The method returns a tuple of a new instance of SSLSocket and the IP address of the client, we store them in the variables `newsocket` and `fromaddr`. 
@@ -130,4 +140,3 @@ We convert `response` to bytes and send this information from the socket `connst
 ## __main__
 We start the servers.
 
-Threading?

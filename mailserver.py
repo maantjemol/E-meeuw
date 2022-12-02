@@ -124,13 +124,15 @@ class HTTP_Server():
         """
         print(f"Web server is starting on https://{self.address}:{self.port}\n")
 
+        # Create a SSLContest object and load the Certificates
         context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
         context.load_cert_chain(domainCert, privateCert)
 
+        # Open a socket and assign an address and portnumber
         bindsocket = socket.socket()
         bindsocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 5)
         bindsocket.bind((self.address, self.port))
-        # gaat luisteren of er ook shit naar binnen komt
+        # The server is now listening for connection requests
         bindsocket.listen(1)
 
         while True:
@@ -155,6 +157,7 @@ class HTTP_Server():
                 if route.auth and (not request.cookie or not getUser(request.cookie)):
                     response = Redirect("/login/login.html").build()
 
+                # Encode the HTTP response and send it to the connected remote socket
                 connstream.sendall(response.encode())
                 connstream.close()
             except Exception as e:
