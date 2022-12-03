@@ -37,7 +37,7 @@ Cache-Control: no-store
 A class to format a HTTP response so it is able to connect to the api route.
 
 ### method Build()
-The `cookie` and `succes` variables obtained when executing responseFunc are formatted to a JSON string by `json.dumps`.
+The Python objects obtained when executing responseFunc are formatted to a JSON string by `json.dumps`.
 `build()` returns a HTTP message with `statuscode` 200, the JSON string and `contentType` "application/json". 
 
 ## class Request()
@@ -116,10 +116,10 @@ Furtermore, the class contains the method `start()`
 First, the method will print a string stating the address and port where the server will be starting. 
 
 Next, the SSL connection is initiated. To do so, we create `context`, a `SSLContext` object with secure default settings for the given purpose. Here, `Purpose.CLIENT_AUTH` loads CA certificates for client certificate verification on the server side. 
-The method `load_cert_chain()` loads an X.509 certificate and its private key into the SSLContext object. With `domainCert` and `privateCert`, we either refer to the certificates linked to our domain, e-meeuw, or certificates we created ourselves. Which one we use depends on weather we go live trough docker or not. The loaded certificate will be used during the SSL Handshake with the peer.
+The method `load_cert_chain()` loads an X.509 certificate and its private key into the SSLContext object. With `domainCert` and `privateCert`, we either refer to the certificates linked to our domain, e-meeuw, or certificates we created ourselves. Which one we use depends on whether we go live trough docker or not. The loaded certificate will be used during the SSL Handshake with the peer.
 
 `Bindsocket` is an object `socket` using the `socket` module. We set the options related to a socket and assign an address and portnumber to the socket. 
-`bindsocket.listen(1)` means the server is now listening for connection requests to its assigned port. `1` is the backlog argument of the method, this argument specifies the maximum number of queued connections. [Why we chose 1]. 
+`bindsocket.listen(1)` means the server is now listening for connection requests to its assigned port. `1` is the backlog argument of the method, this argument specifies the maximum number of queued connections.
 
 ### While loop
 We enter the while loop where we handle the connections, we stay in this loop for as long as we run this program. 
