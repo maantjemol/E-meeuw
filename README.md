@@ -24,8 +24,8 @@ python3 mailserver.py
 
 ## Documentation
 
-- [Webserver](https://github.com/maantjemol/EoCS-project/blob/master/documentation/webserver.md)
-
+- [Web Server](https://github.com/maantjemol/EoCS-project/blob/master/documentation/webserver.md)
+- [Email Server](https://github.com/maantjemol/EoCS-project/blob/master/documentation/emailserver.md)
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
